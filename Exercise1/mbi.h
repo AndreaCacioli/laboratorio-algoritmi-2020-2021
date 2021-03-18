@@ -16,14 +16,26 @@
 
 /*
     * The function bi performs a binary-insertion sort:
-    *   Similarly to the classic insertion sort a previously sorted part of the array is given.
+    *   Similarly to the classic insertion sort a previously sorted part of the array (v) is given.
     *   The first element of the array is selected from just out of the sorted part.
     *   A new position is then found using binary search across the first part of the array
     * Specifications:
     *         Binary search is implemented recursively
-    * 
 */
 extern void* bi(void* v,int (*cmpfnc)(void*, void*), int size, int type_size);
 
+/*
+    * The function m performs a merge sort:
+    *   The array (v) is recursively split into subarrays of half length until
+    *   a unitary length is reached. Then the two subarrays are merged together
+    *   maintaining the order specified by the comparator function
+    *   size is the number of elements in the array
+    *   type_size is the size in bytes of a single element
+*/
+extern void* m(void* v,int (*cmpfnc)(void*, void*), int size, int type_size);
+
+
+extern void* merge(void* v, void* w, int v_size, int w_size, int (*cmpfnc)(void*, void*), int type_size);
+extern void copy_bytes(void* v, void* w, int type_size);
 
 #endif

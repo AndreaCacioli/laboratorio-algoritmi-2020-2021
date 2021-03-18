@@ -55,4 +55,51 @@ void* bi(void* v,int (*cmpfnc)(void*, void*), int size, int type_size)
 }
 
 
+void copy_bytes(void* v, void* w, int type_size) //Copies the content of v into w
+{
+    unsigned char* a = v, *b = w;
+    for(int i = 0; i < type_size; i++)
+    {
+        *(b+i) = *(a+i);
+    }
+}
+
+void* merge(void* v, void* w, int v_size, int w_size, int (*cmpfnc)(void*, void*), int type_size) //merges two sorted arrays keeping them sorted
+{
+    int i = 0, j = 0, k = 0;
+    int length = v_size + w_size;
+    void* arr = malloc(length * type_size);
+
+    while(k < length)
+    {
+        if(j == w_size)
+        {
+            copy_bytes(v + i * type_size, arr + k * type_size, type_size);
+            if(i < v_size) i++;
+        }
+        else if(i == v_size)
+        {
+            copy_bytes(w + j * type_size, arr + k * type_size, type_size);
+            if(j < w_size) j++;
+        }
+        else if(cmpfnc(v + i * type_size, w + j * type_size) < 0)
+        {
+            copy_bytes(v + i * type_size, arr + k * type_size, type_size);
+            if(i < v_size) i++;
+        }
+        else if(cmpfnc(v+ i * type_size, w + j * type_size) >= 0)
+        {
+            copy_bytes(w + j * type_size, arr + k * type_size, type_size);
+            if(j < w_size) j++;
+        }
+        k++;
+    }
+    return arr;
+}
+
+void* m(void* v,int (*cmpfnc)(void*, void*), int size, int type_size)
+{   
+    return NULL;
+}
+
 
