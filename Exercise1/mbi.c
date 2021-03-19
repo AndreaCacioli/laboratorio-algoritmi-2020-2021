@@ -99,7 +99,18 @@ void* merge(void* v, void* w, int v_size, int w_size, int (*cmpfnc)(void*, void*
 
 void* m(void* v,int (*cmpfnc)(void*, void*), int size, int type_size)
 {   
-    return NULL;
+    if(v == NULL) return NULL;
+    if(size == 0) return v;
+
+    void* mid = v + (size  / 2) * type_size;
+    if(size > 1)
+    {
+        return merge(m(v, cmpfnc, size/2, type_size), m(mid, cmpfnc, (size+1)/2, type_size), size/2, (size+1)/2, cmpfnc, type_size);
+    }
+    else
+    {
+        return v;
+    }
 }
 
 

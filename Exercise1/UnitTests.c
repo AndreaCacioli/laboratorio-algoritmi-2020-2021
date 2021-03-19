@@ -7,6 +7,11 @@ int cmp(void* a, void* b)
 {
     return *(int*)a - *(int*)b;
 }
+
+int revcmp(void* a, void* b)
+{
+    return *(int*)b - *(int*)a;
+}
 /*
 void test_sort_empty_array() 
 {
@@ -24,10 +29,10 @@ int main(int argc, char** argv)
 {
     //test_sort_empty_array();
     //test_sort_null_array();
-    int a[] = {1,3,6,8,10};
-    int b[] = {3,11,34,49};
-    int* t = merge(a,b,5,4,cmp,sizeof(int));
-    for(int i = 0; i < 9; i++)
+    int c[] = {1,3,2,4,5,8,3,7,0,14,15,99,43,21,7,6,8,9,42,11,14,67,89,4,1,72,13,69};
+
+    int* t = m(c,revcmp,28,sizeof(int));
+    for(int i = 0; i < 28; i++)
     {
         printf("%d\n", t[i]);
     }
