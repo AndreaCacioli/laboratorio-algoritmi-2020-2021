@@ -34,8 +34,4 @@ extern void* bi(void* v,int (*cmpfnc)(void*, void*), int size, int type_size);
 */
 extern void* m(void* v,int (*cmpfnc)(void*, void*), int size, int type_size);
 
-
-extern void* merge(void* v, void* w, int v_size, int w_size, int (*cmpfnc)(void*, void*), int type_size);
-extern void copy_bytes(void* v, void* w, int type_size);
-
 #endif
