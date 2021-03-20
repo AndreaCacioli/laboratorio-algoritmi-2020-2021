@@ -15,3 +15,12 @@ clean:
 
 run:  Ex1
 	./Ex1
+
+SortingFromFile.o: SortingFromFile.c
+	gcc -c SortingFromFile.c
+
+filereader: mbi.o  SortingFromFile.o
+	gcc mbi.o SortingFromFile.o -o SortingFromFile
+
+data:  SortingFromFile
+	./SortingFromFile
