@@ -151,20 +151,26 @@ void* bi(void* v,int (*cmpfnc)(void*, void*), int size, int type_size)
     *   size is the number of elements in the array
     *   type_size is the size in bytes of a single element
 */
-void* m(void* v,int (*cmpfnc)(void*, void*), int size, int type_size)
+void* m(void* v,int (*cmpfnc)(void*, void*), int size, int type_size, int k)
 {   
     if(v == NULL) return NULL;
     if(size == 0) return v;
 
     void* mid = v + (size  / 2) * type_size;
-    if(size > 1)
+    if(size > k) //If array is long we use merge sort
     {
-        return merge(m(v, cmpfnc, size/2, type_size), m(mid, cmpfnc, (size+1)/2, type_size), size/2, (size+1)/2, cmpfnc, type_size);
+        if(size > 1)
+        {
+            return merge(m(v, cmpfnc, size/2, type_size, k), m(mid, cmpfnc, (size+1)/2, type_size, k), size/2, (size+1)/2, cmpfnc, type_size);
+        }
+        else
+        {
+            return v;
+        }
     }
-    else
-    {
-        return v;
-    }
+    else return bi(v,cmpfnc,size,type_size);//When array is short enough we perform Binary-Insertion
+    
 }
+
 
 

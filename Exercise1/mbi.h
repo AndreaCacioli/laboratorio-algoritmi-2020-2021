@@ -32,6 +32,6 @@ extern void* bi(void* v,int (*cmpfnc)(void*, void*), int size, int type_size);
     *   size is the number of elements in the array
     *   type_size is the size in bytes of a single element
 */
-extern void* m(void* v,int (*cmpfnc)(void*, void*), int size, int type_size);
+extern void* m(void* v,int (*cmpfnc)(void*, void*), int size, int type_size, int k);
 
 #endif
