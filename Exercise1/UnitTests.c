@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "mbi.h"
 
 
@@ -9,10 +10,9 @@ int cmp(void* a, void* b)
 {
     return *(int*)a - *(int*)b;
 }
-
-int revcmp(void* a, void* b)
+int cmpstr(void* a, void* b)
 {
-    return *(int*)b - *(int*)a;
+    return strcmp(*(char**)a, *(char**)b);
 }
 
 void test_sort_empty_array() 
@@ -77,8 +77,28 @@ void test_sort_random_array()
         free(a1);
         free(a2);
     }
+}
 
-   
+void test_sort_string_array()
+{
+    char* a1[] = {"Jean", "Diluc", "Hu-Tao", "Barbara"};
+    char* a2[] = {"Jean", "Diluc", "Hu-Tao", "Barbara"};
+    for(int i = 0; i < 4; i++)
+    {
+        printf("%p | ", a2[i]);
+        puts(a2[i]);
+    }
+    char* b[] = {"Barbara", "Diluc", "Hu-Tao", "Jean"};
+    bi(a1, cmpstr, 4, sizeof(char*));
+    m(a2, cmpstr, 4, sizeof(char*),0);
+    printf("%d\n",sizeof(char*));
+    for(int i = 0; i < 4; i++)
+    {
+        printf("%p | ", a2[i]);
+        puts(a2[i]);
+        //assert(strcmp(a1[i], b[i]) == 0);
+        //assert(strcmp(a2[i], b[i]) == 0);
+    }
 }
  
 int main(int argc, char** argv) 
@@ -88,5 +108,6 @@ int main(int argc, char** argv)
     test_sort_sorted_array();
     test_sort_reverse_sorted_array();
     test_sort_random_array();
+    test_sort_string_array();
     return 0;
 }

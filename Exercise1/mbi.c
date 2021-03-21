@@ -1,6 +1,7 @@
 #include "mbi.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 /**********************************************************************************************
     *
@@ -135,7 +136,7 @@ void* bi(void* v,int (*cmpfnc)(void*, void*), int size, int type_size)
 
         for(int k = i; k > pos; k--)
         {
-            swap(v + k * type_size, v + (k - 1) * type_size, type_size);
+            swap((v + k * type_size),(v + (k - 1) * type_size), type_size);
         }
         
     }
