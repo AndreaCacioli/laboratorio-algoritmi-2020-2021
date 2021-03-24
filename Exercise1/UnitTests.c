@@ -91,7 +91,7 @@ void test_sort_string_array()
     char* b[] = {"Barbara", "Diluc", "Hu-Tao", "Jean"};
     bi(a1, cmpstr, 4, sizeof(char*));
     m(a2, cmpstr, 4, sizeof(char*),0);
-    printf("%d\n",sizeof(char*));
+    printf("%ld\n",sizeof(char*));
     for(int i = 0; i < 4; i++)
     {
         printf("%p | ", a2[i]);
@@ -100,9 +100,26 @@ void test_sort_string_array()
         //assert(strcmp(a2[i], b[i]) == 0);
     }
 }
+
+#ifdef SUB_TESTS
+    void test_merge()
+    {
+        int v[8] = {1,4,7,8,2,3,6,78};
+        int* p = &v[4];
+        int ans[] = {1,2,3,4,6,7,8,78};
+        merge(v,p,4,4,cmp,sizeof(int));
+        for(int i = 0; i < 8; i++)
+        {
+            assert(v[i] == ans[i]);
+        }
+    }
+#endif
  
 int main(int argc, char** argv) 
 {
+    #ifdef SUB_TESTS
+    test_merge();
+    #endif
     test_sort_empty_array();
     test_sort_null_array();
     test_sort_sorted_array();

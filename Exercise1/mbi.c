@@ -90,6 +90,10 @@ void* merge(void* v, void* w, int v_size, int w_size, int (*cmpfnc)(void*, void*
     int length = v_size + w_size;
     void* arr = malloc(length * type_size);
 
+    #ifdef VERBOSE_OUTPUT
+    printf("Allocated %p\n", arr);
+    #endif
+
     while(k < length)
     {
         if(j == w_size)
@@ -114,7 +118,18 @@ void* merge(void* v, void* w, int v_size, int w_size, int (*cmpfnc)(void*, void*
         }
         k++;
     }
-    return arr;
+
+    for(int i = 0; i < length; i++)
+    {
+        copy_bytes(arr + i * type_size, v + i * type_size, type_size);
+    }
+    free(arr);
+
+    #ifdef VERBOSE_OUTPUT
+    printf("Dellocated %p\n", arr);
+    #ifdef VERBOSE_OUTPUT
+    
+    return v;
 }
 
 /*

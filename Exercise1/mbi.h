@@ -13,6 +13,12 @@
     * 
 ***********************************************************************************************/
 
+//Uncomment this if you want to perform unit tests on the sub-functions that make up the library  
+#define SUB_TESTS
+
+
+//Uncomment this if you want some of the functions to write to the screen
+//#define VERBOSE_OUTPUT
 
 /*
     * The function bi performs a binary-insertion sort:
@@ -33,5 +39,12 @@ extern void* bi(void* v,int (*cmpfnc)(void*, void*), int size, int type_size);
     *   type_size is the size in bytes of a single element
 */
 extern void* m(void* v,int (*cmpfnc)(void*, void*), int size, int type_size, int k);
+
+#ifdef SUB_TESTS
+extern void swap(void* a, void* b, int type_size);
+extern void copy_bytes(void* v, void* w, int type_size);
+extern int binarySearch(void* arr, int (*cmpfnc)(void*, void*), int l, int r, void* x, int type_size);
+extern void* merge(void* v, void* w, int v_size, int w_size, int (*cmpfnc)(void*, void*), int type_size);
+#endif
 
 #endif
