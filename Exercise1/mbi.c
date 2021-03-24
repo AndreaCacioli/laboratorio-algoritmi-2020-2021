@@ -127,8 +127,8 @@ void* merge(void* v, void* w, int v_size, int w_size, int (*cmpfnc)(void*, void*
 
     #ifdef VERBOSE_OUTPUT
     printf("Dellocated %p\n", arr);
-    #ifdef VERBOSE_OUTPUT
-    
+    #endif
+
     return v;
 }
 

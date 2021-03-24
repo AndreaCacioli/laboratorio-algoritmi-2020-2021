@@ -5,14 +5,31 @@
 #include <string.h>
 #include "mbi.h"
 
+ typedef struct _data
+    {
+        float f;
+        int n;
+    }data;
 
 int cmp(void* a, void* b)
 {
     return *(int*)a - *(int*)b;
 }
+int cmpfloat(void* a, void* b)
+{
+    return *(float*)a - *(float*)b;
+}
 int cmpstr(void* a, void* b)
 {
     return strcmp(*(char**)a, *(char**)b);
+}
+int cmpdataint(void* a, void* b)
+{
+    return ((data*)a)->n - ((data*)b)->n;
+}
+int cmpdatafloat(void* a, void* b)
+{
+    return 10000 * (((data*)a)->f - ((data*)b)->f); //Multiply by 10000 to ensure the difference is visible in an int variable, for more precision increase the factor
 }
 
 void test_sort_empty_array() 
@@ -79,27 +96,74 @@ void test_sort_random_array()
     }
 }
 
+void test_sort_float_array()
+{
+    float a1[] = {1.8,6.3,5.0,1.3};
+    float a2[] = {1.8,6.3,5.0,1.3};
+
+    float ans[] = {1.3, 1.8, 5.0, 6.3};
+
+    bi(a1,cmpfloat,4, sizeof(float));
+    m(a2,cmpfloat,4, sizeof(float), 0);
+    for(int i  = 0; i < 4; i++)
+    {
+        assert(a1[i] == ans[i]);
+        assert(a2[i] == ans[i]);
+    }
+
+}
+
 void test_sort_string_array()
 {
     char* a1[] = {"Jean", "Diluc", "Hu-Tao", "Barbara"};
     char* a2[] = {"Jean", "Diluc", "Hu-Tao", "Barbara"};
-    for(int i = 0; i < 4; i++)
-    {
-        printf("%p | ", a2[i]);
-        puts(a2[i]);
-    }
-    char* b[] = {"Barbara", "Diluc", "Hu-Tao", "Jean"};
+    char* ans[] = {"Barbara", "Diluc", "Hu-Tao", "Jean"};
+
+
     bi(a1, cmpstr, 4, sizeof(char*));
     m(a2, cmpstr, 4, sizeof(char*),0);
-    printf("%ld\n",sizeof(char*));
+
+
     for(int i = 0; i < 4; i++)
     {
-        printf("%p | ", a2[i]);
-        puts(a2[i]);
-        //assert(strcmp(a1[i], b[i]) == 0);
-        //assert(strcmp(a2[i], b[i]) == 0);
+        assert(strcmp(a1[i], ans[i]) == 0);
+        assert(strcmp(a2[i], ans[i]) == 0);
     }
 }
+
+
+void test_sort_records()
+{
+    time_t t;
+    srand((unsigned)time(&t));
+
+    data v[4];
+    v[0].f = 2.1;
+    v[0].n = 4;
+    v[1].f = 7.89;
+    v[1].n = 5;
+    v[2].f = 1.1;
+    v[2].n = 0;
+    v[3].f = 9.2;
+    v[3].n = 3;
+
+    m(v,cmpdataint,4,sizeof(data),rand()%4);
+
+    for(int i = 0; i < 3; i++)
+    {
+        assert(v[i].n <= v[i+1].n);
+    }
+
+    m(v,cmpdatafloat,4,sizeof(data),rand()%4);
+
+    for(int i = 0; i < 3; i++)
+    {
+        assert(v[i].f <= v[i+1].f);
+    }
+
+}
+
+
 
 #ifdef SUB_TESTS
     void test_merge()
@@ -125,6 +189,8 @@ int main(int argc, char** argv)
     test_sort_sorted_array();
     test_sort_reverse_sorted_array();
     test_sort_random_array();
+    test_sort_float_array();
     test_sort_string_array();
+    test_sort_records();
     return 0;
 }
