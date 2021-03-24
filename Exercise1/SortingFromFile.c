@@ -30,7 +30,14 @@ int cmpfloat(void* a, void* b)
 
 int main(int argc, char** args)
 {
-    FILE* file = fopen("./records.csv", "r");
+    printf("Starting...\n");
+    FILE* file;
+    if((file = fopen("./records.csv", "r")) == NULL)
+    {
+        fprintf(stderr, "Could not open file\n");
+        return 1;
+    }
+    printf("File found!\n");
 
     line* lines = malloc(20000000 * sizeof(line));
     int i = 0;
@@ -71,9 +78,23 @@ int main(int argc, char** args)
     {
         time_t starting_time = 0;
         time_t end_time = 0;
+        copy_lines(lines, l);
+
+        //Sorting by Field1
+        time(&starting_time);
+        m(l, cmpstr, 20000000, sizeof(line), k);
+        time(&end_time);
+        fprintf(results, "%ld,", end_time - starting_time);
+        printf("k = %d, sorting by string, time:\t%ld\n",k, end_time - starting_time);
+        printf("Showing a couple data that has been stored:\n");
+        for (int i = 0; i < 21; i++)
+        {
+            print_line(l[i]);
+        }
+        printf("\n\n");
 
         //Sorting by Field2
-        copy_lines(lines, l);
+        //copy_lines(lines, l);
         time(&starting_time);
         m(l, cmpint, 20000000, sizeof(line), k);
         time(&end_time);
@@ -87,9 +108,9 @@ int main(int argc, char** args)
          printf("\n\n");
 
         //Sorting by Field3
-        copy_lines(lines, l);
+        //copy_lines(lines, l);
         time(&starting_time);
-        m(l, cmpint, 20000000, sizeof(line), k);
+        m(l, cmpfloat, 20000000, sizeof(line), k);
         time(&end_time);
         fprintf(results, "%ld\n", end_time - starting_time);
         printf("k = %d, sorting by float, time:\t%ld\n",k, end_time - starting_time);
@@ -100,19 +121,6 @@ int main(int argc, char** args)
         }
          printf("\n\n");
 
-         //Sorting by Field1
-        copy_lines(lines, l);
-        time(&starting_time);
-        m(l, cmpstr, 20000000, sizeof(line), k);
-        time(&end_time);
-        fprintf(results, "%ld,", end_time - starting_time);
-        printf("k = %d, sorting by string, time:\t%ld\n",k, end_time - starting_time);
-        printf("Showing a couple data that has been stored:\n");
-        for (int i = 0; i < 21; i++)
-        {
-            print_line(l[i]);
-        }
-        printf("\n\n");
 
         simulation_end = time(&simulation_end);
         if(simulation_end - simulation_start >= (20 * 60))

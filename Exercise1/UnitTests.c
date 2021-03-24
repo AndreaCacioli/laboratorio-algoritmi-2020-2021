@@ -9,6 +9,7 @@
     {
         float f;
         int n;
+        char* c;
     }data;
 
 int cmp(void* a, void* b)
@@ -30,6 +31,10 @@ int cmpdataint(void* a, void* b)
 int cmpdatafloat(void* a, void* b)
 {
     return 10000 * (((data*)a)->f - ((data*)b)->f); //Multiply by 10000 to ensure the difference is visible in an int variable, for more precision increase the factor
+}
+int cmpdatachstar(void* a, void* b)
+{
+    return strcmp(((data*)a)->c, ((data*)b)->c);
 }
 
 void test_sort_empty_array() 
@@ -139,12 +144,19 @@ void test_sort_records()
 
     data v[4];
     v[0].f = 2.1;
+    v[0].c = "Hello"; 
     v[0].n = 4;
+
     v[1].f = 7.89;
+    v[1].c = "today";
     v[1].n = 5;
+
     v[2].f = 1.1;
+    v[2].c = "sun";
     v[2].n = 0;
+
     v[3].f = 9.2;
+    v[3].c = "out";
     v[3].n = 3;
 
     m(v,cmpdataint,4,sizeof(data),rand()%4);
@@ -159,6 +171,13 @@ void test_sort_records()
     for(int i = 0; i < 3; i++)
     {
         assert(v[i].f <= v[i+1].f);
+    }
+
+    m(v,cmpdatachstar,4,sizeof(data),rand()%4);
+
+    for(int i = 0; i < 3; i++)
+    {
+        assert(strcmp(v[i].c, v[i+1].c) <= 0);
     }
 
 }
