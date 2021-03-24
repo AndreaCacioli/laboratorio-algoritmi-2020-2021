@@ -25,13 +25,16 @@ int cmpstr(void* a, void* b)
 }
 int cmpfloat(void* a, void* b)
 {
-    return ((line*)a)->f - ((line*)b)->f;
+    return 1000 * (((line*)a)->f - ((line*)b)->f);
 }
 
 int main(int argc, char** args)
 {
-    printf("Starting...\n");
     FILE* file;
+    FILE* results = fopen("results.csv", "w");
+    line* l = (line*)malloc(20000000 * sizeof(line));
+    int i = 0;
+
     if((file = fopen("./records.csv", "r")) == NULL)
     {
         fprintf(stderr, "Could not open file\n");
@@ -40,7 +43,7 @@ int main(int argc, char** args)
     printf("File found!\n");
 
     line* lines = malloc(20000000 * sizeof(line));
-    int i = 0;
+    
     printf("Populating the array...\n");
     while(!feof(file))
     {
@@ -68,14 +71,12 @@ int main(int argc, char** args)
         print_line(lines[i]);
     }
 
-    FILE* results = fopen("results.csv", "w");
-    line l[20000000];
-
     time_t simulation_start = time(&simulation_start);
     time_t simulation_end = time(&simulation_end);
 
     for (int k = 0; k < 20; k++)
     {
+        printf("Starting to sort for k = %d\n", k);
         time_t starting_time = 0;
         time_t end_time = 0;
         copy_lines(lines, l);
@@ -127,6 +128,7 @@ int main(int argc, char** args)
         {
             printf("20 minutes have passed...\nInterrupting the simulations, results can be found in results.csv\n");
             free(lines);
+            free(l);
             fclose(file);
             fclose(results);
             return 0;
@@ -135,6 +137,7 @@ int main(int argc, char** args)
     
 
     free(lines);
+    free(l);
     fclose(file);
     fclose(results);
 }

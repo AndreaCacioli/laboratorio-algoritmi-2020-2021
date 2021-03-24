@@ -22,6 +22,7 @@ SortingFromFile.o: SortingFromFile.c
 filereader: mbi.o  SortingFromFile.o
 	gcc mbi.o SortingFromFile.o -o SortingFromFile
 
-data:  SortingFromFile mbi.o SortingFromFile.o
+data:  mbi.o SortingFromFile SortingFromFile.o
+	gcc -c mbi.c
 	gcc mbi.o SortingFromFile.o -o SortingFromFile
 	./SortingFromFile
