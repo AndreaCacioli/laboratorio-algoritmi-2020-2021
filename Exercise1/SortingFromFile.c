@@ -30,6 +30,12 @@ int cmpfloat(void* a, void* b)
 
 int main(int argc, char** args)
 {
+    if(argc != 4) 
+    {
+        fprintf(stderr,"Please specify the starting and ending values of k and the time limit in minutes\n");
+        return 1;
+    }
+
     FILE* file;
     FILE* results = fopen("results.csv", "w");
     line* l = (line*)malloc(20000000 * sizeof(line));
@@ -73,8 +79,11 @@ int main(int argc, char** args)
 
     time_t simulation_start = time(&simulation_start);
     time_t simulation_end = time(&simulation_end);
+    int start = atoi(args[1]);
+    int end = atoi(args[2]);
+    int maxTime = atoi(args[3]);
 
-    for (int k = 0; k < 20; k++)
+    for (int k = start; k < end; k++)
     {
         printf("Starting to sort for k = %d\n", k);
         time_t starting_time = 0;
@@ -124,9 +133,9 @@ int main(int argc, char** args)
 
 
         simulation_end = time(&simulation_end);
-        if(simulation_end - simulation_start >= (20 * 60))
+        if(simulation_end - simulation_start >= (maxTime * 60))
         {
-            printf("20 minutes have passed...\nInterrupting the simulations, results can be found in results.csv\n");
+            printf("%d minutes have passed...\nInterrupting the simulations, results can be found in results.csv\n", maxTime);
             free(lines);
             free(l);
             fclose(file);
