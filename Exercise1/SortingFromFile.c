@@ -10,22 +10,22 @@ typedef struct line
     char* c;
     int n;
     float f;
-}line;
+}Line;
 
-void print_line(line l);
-void copy_lines(line* lines, line* ret);
+void print_line(Line l);
+void copy_lines(Line* lines, Line* ret);
 
 int cmpint(void* a, void* b)
 {
-    return ((line*)a)->n - ((line*)b)->n;
+    return ((Line*)a)->n - ((Line*)b)->n;
 }
 int cmpstr(void* a, void* b)
 {
-    return strcmp(((line*)a)->c, ((line*)b)->c);
+    return strcmp(((Line*)a)->c, ((Line*)b)->c);
 }
 int cmpfloat(void* a, void* b)
 {
-    return 1000 * (((line*)a)->f - ((line*)b)->f);
+    return (((Line*)a)->f <= ((Line*)b)->f) ? -1 : 1;
 }
 
 int main(int argc, char** args)
@@ -38,7 +38,7 @@ int main(int argc, char** args)
 
     FILE* file;
     FILE* results = fopen("results.csv", "w");
-    line* l = (line*)malloc(20000000 * sizeof(line));
+    Line* l = (Line*)malloc(20000000 * sizeof(Line));
     int i = 0;
 
     if((file = fopen("./records.csv", "r")) == NULL)
@@ -48,7 +48,7 @@ int main(int argc, char** args)
     }
     printf("File found!\n");
 
-    line* lines = malloc(20000000 * sizeof(line));
+    Line* lines = malloc(20000000 * sizeof(Line));
     
     printf("Populating the array...\n");
     while(!feof(file))
@@ -92,7 +92,7 @@ int main(int argc, char** args)
 
         //Sorting by Field1
         time(&starting_time);
-        m(l, cmpstr, 20000000, sizeof(line), k);
+        m(l, cmpstr, 20000000, sizeof(Line), k);
         time(&end_time);
         fprintf(results, "%ld,", end_time - starting_time);
         printf("k = %d, sorting by string, time:\t%ld\n",k, end_time - starting_time);
@@ -106,7 +106,7 @@ int main(int argc, char** args)
         //Sorting by Field2
         //copy_lines(lines, l);
         time(&starting_time);
-        m(l, cmpint, 20000000, sizeof(line), k);
+        m(l, cmpint, 20000000, sizeof(Line), k);
         time(&end_time);
         fprintf(results, "%ld,", end_time - starting_time);
         printf("k = %d, sorting by int, time:\t%ld\n",k, end_time - starting_time);
@@ -120,7 +120,7 @@ int main(int argc, char** args)
         //Sorting by Field3
         //copy_lines(lines, l);
         time(&starting_time);
-        m(l, cmpfloat, 20000000, sizeof(line), k);
+        m(l, cmpfloat, 20000000, sizeof(Line), k);
         time(&end_time);
         fprintf(results, "%ld\n", end_time - starting_time);
         printf("k = %d, sorting by float, time:\t%ld\n",k, end_time - starting_time);
@@ -151,11 +151,11 @@ int main(int argc, char** args)
     fclose(results);
 }
 
-void print_line(line l)
+void print_line(Line l)
 {
     printf("id: %ld\t Word: %s\t\t int: %d\t float: %2f\n", l.id, l.c, l.n, l.f);
 }
-void copy_lines(line* lines, line* ret)
+void copy_lines(Line* lines, Line* ret)
 {
     for(int i = 0; i < 20000000; i++)
     {

@@ -1,5 +1,5 @@
-#ifndef SOME_DIFFICULT_NAME_HARD_TO_REMEMBER
-#define SOME_DIFFICULT_NAME_HARD_TO_REMEMBER
+#ifndef SOME_DIFFICULT_NAME_HARD_TO_GUESS
+#define SOME_DIFFICULT_NAME_HARD_TO_GUESS
 
 
 /**********************************************************************************************
@@ -14,7 +14,7 @@
 ***********************************************************************************************/
 
 //Uncomment this if you want to perform unit tests on the sub-functions that make up the library  
-#define SUB_TESTS
+//#define SUB_TESTS
 
 
 //Uncomment this if you want some of the functions to write to the screen
@@ -31,12 +31,13 @@
 extern void* bi(void* v,int (*cmpfnc)(void*, void*), int size, int type_size);
 
 /*
-    * The function m performs a merge sort:
+    * The function m performs a merge sort down to length k, then the remaining array is sorted using function bi:
     *   The array (v) is recursively split into subarrays of half length until
     *   a unitary length is reached. Then the two subarrays are merged together
     *   maintaining the order specified by the comparator function
     *   size is the number of elements in the array
     *   type_size is the size in bytes of a single element
+    *   k is the length of the sub-arrays we want to sort using bi
 */
 extern void* m(void* v,int (*cmpfnc)(void*, void*), int size, int type_size, int k);
 

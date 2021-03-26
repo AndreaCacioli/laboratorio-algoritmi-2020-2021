@@ -10,7 +10,7 @@
         float f;
         int n;
         char* c;
-    }data;
+    }Data;
 
 int cmp(void* a, void* b)
 {
@@ -26,15 +26,15 @@ int cmpstr(void* a, void* b)
 }
 int cmpdataint(void* a, void* b)
 {
-    return ((data*)a)->n - ((data*)b)->n;
+    return ((Data*)a)->n - ((Data*)b)->n;
 }
 int cmpdatafloat(void* a, void* b)
 {
-    return 10000 * (((data*)a)->f - ((data*)b)->f); //Multiply by 10000 to ensure the difference is visible in an int variable, for more precision increase the factor
+    return 10000 * (((Data*)a)->f - ((Data*)b)->f); //Multiply by 10000 to ensure the difference is visible in an int variable, for more precision increase the factor
 }
 int cmpdatachstar(void* a, void* b)
 {
-    return strcmp(((data*)a)->c, ((data*)b)->c);
+    return strcmp(((Data*)a)->c, ((Data*)b)->c);
 }
 
 void test_sort_empty_array() 
@@ -142,7 +142,7 @@ void test_sort_records()
     time_t t;
     srand((unsigned)time(&t));
 
-    data v[4];
+    Data v[4];
     v[0].f = 2.1;
     v[0].c = "Hello"; 
     v[0].n = 4;
@@ -159,21 +159,21 @@ void test_sort_records()
     v[3].c = "out";
     v[3].n = 3;
 
-    m(v,cmpdataint,4,sizeof(data),rand()%4);
+    m(v,cmpdataint,4,sizeof(Data),rand()%4);
 
     for(int i = 0; i < 3; i++)
     {
         assert(v[i].n <= v[i+1].n);
     }
 
-    m(v,cmpdatafloat,4,sizeof(data),rand()%4);
+    m(v,cmpdatafloat,4,sizeof(Data),rand()%4);
 
     for(int i = 0; i < 3; i++)
     {
         assert(v[i].f <= v[i+1].f);
     }
 
-    m(v,cmpdatachstar,4,sizeof(data),rand()%4);
+    m(v,cmpdatachstar,4,sizeof(Data),rand()%4);
 
     for(int i = 0; i < 3; i++)
     {
