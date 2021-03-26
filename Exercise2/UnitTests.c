@@ -4,27 +4,7 @@
 #include <assert.h>
 #include "edit.h"
 
-int** setup_mat(int rows, int columns)
-{
-    int** m = malloc(rows * sizeof(int*));
-    for(int i = 0; i < rows; i++)
-    {
-        m[i] = malloc(columns * sizeof(int));
-        for(int j = 0; j < columns; j++)
-        {
-            m[i][j] = -1;
-        }
-    }
-    return m;
-}
-void free_mat(int** m, int rows)
-{
-    for(int i = 0; i < rows; i++)
-    {
-        free(m[i]);
-    }
-    free(m);
-}
+
 
 void test_edit_distance()
 {
