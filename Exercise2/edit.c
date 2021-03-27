@@ -1,8 +1,17 @@
 #include <math.h>
 #include <stddef.h>
+#include <stdlib.h>
+
 #define INT_MAX 2147483647
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
+/*
+    * The non-dynamic implementation: 
+    *   a is the first string
+    *   b is the second string
+    *   len1 is the length of the first string
+    *   len2 is the length of the second string
+*/
 int edit_distance(char* a, char* b, size_t len1, size_t len2)
 {
     if(len1 == 0) return (int)len2;
@@ -15,6 +24,15 @@ int edit_distance(char* a, char* b, size_t len1, size_t len2)
         return MIN(d_no_op, MIN(d_del, d_ins));
     }
 }
+
+/*
+    * The dynamic implementation: 
+    *   a is the first string
+    *   b is the second string
+    *   len1 is the length of the first string
+    *   len2 is the length of the second string
+    *   mat is an int matrix which needs to have at least len1 rows and len2 columns
+*/
 int edit_distance_dyn(char* a, char* b, size_t len1, size_t len2, int** mat)
 {
     if(len1 == 0) return (int)len2;
@@ -35,6 +53,9 @@ int edit_distance_dyn(char* a, char* b, size_t len1, size_t len2, int** mat)
     }
 }
 
+
+//A couple of utility functions:
+//  setup_mat dynamically allocates a matrix with given rows and columns
 int** setup_mat(int rows, int columns)
 {
     int** m = malloc(rows * sizeof(int*));
@@ -48,6 +69,8 @@ int** setup_mat(int rows, int columns)
     }
     return m;
 }
+
+//  free_mat deallocates the previously allocated matrix
 void free_mat(int** m, int rows)
 {
     for(int i = 0; i < rows; i++)

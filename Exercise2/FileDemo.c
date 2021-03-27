@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "edit.h"
 
 #define DICTIONARY_SIZE 661562
@@ -35,11 +36,6 @@ int main(int argc, char* args[])
     }
 
     printf("\n\n");
-
-    for(int i = 50; i < 70; i++)
-    {
-        printf("%s %d\n", dictionary[i], word_sizes[i]);
-    }
 
     FILE* input = fopen("correctme.txt", "r");
 
