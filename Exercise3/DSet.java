@@ -1,5 +1,13 @@
 import java.util.LinkedList;
 
+/*
+ *
+ *  This Class is aimed to represent a set in which one element is the representative of the hole set.
+ *  The identification of a set is aided by a tree structure of its Nodes.
+ *  A Path compression tecqnique is used to directly access the representative the next time a query on the key is performed
+ * 
+ */
+
 class DSet<T>
 {
     private LinkedList<Node<T>> elementsOfTheSet;
@@ -27,7 +35,7 @@ class DSet<T>
         elementsOfTheSet.add(starter); 
     }
  
-
+    //A function that merges two sets using a Rank system
     public void Union(DSet<T> d)
     {
         Node<T> representative1 = findNode(elementsOfTheSet.get(0).getKey());
@@ -36,14 +44,13 @@ class DSet<T>
         {
             this.elementsOfTheSet.addAll(d.getElementsOfTheSet()); //Get all elements
             representative2.setParent(representative1);//winner becomes new representative
-            representative1.rankUp();//Increase rank
+            if(representative1.getRank() == representative2.getRank()) representative1.rankUp();//Increase rank if equal
             d = null; //No need to keep d in memory
         }
         else
         {
             d.elementsOfTheSet.addAll(this.getElementsOfTheSet()); //Get all elements
             representative1.setParent(representative2);//winner becomes new representative
-            representative2.rankUp();//Increase rank
         }
         
     }
