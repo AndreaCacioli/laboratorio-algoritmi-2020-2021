@@ -40,4 +40,8 @@ class Node<T>
     {
         rank++;
     }
+    public boolean equals(Node<T> n)
+    {
+        return key.equals(n.getKey());
+    }
 }

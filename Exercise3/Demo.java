@@ -5,26 +5,31 @@ class Demo
     */
     public static void main(String[] Args)
     {
-        DSet<Integer> d = new DSet<Integer>(1);
-        DSet<Integer> d1 = new DSet<Integer>(2);
-        DSet<Integer> d2 = new DSet<Integer>(3);
-        DSet<Integer> d3 = new DSet<Integer>(4);
-        DSet<Integer> d4 = new DSet<Integer>(5);
+        DSets<Integer> d = new DSets<Integer>();
 
-        System.out.println(d);
-        System.out.println(d1);
-        System.out.println(d2);
+        d.makeSet(1);
+        d.makeSet(2);
+        d.makeSet(2);
+        d.makeSet(1);
+        d.makeSet(3);
+        d.makeSet(4);
+        d.makeSet(5);
 
-        d.Union(d1);
-        d2.Union(d3);
-        d2.Union(d4);
-        d2.Union(d);
+        System.out.println(d.size());
+        //System.out.println(d.toString());
 
-        System.out.println(d2);
+        d.union(1, 2);
+        d.union(3, 4);
 
-        d2.find(2);
+        System.out.println(d.find(2));
+        System.out.println(d.find(4));
+        System.out.println(d.find(5));
 
-        System.out.println(d2);
-
+        d.union(4, 2);
+        System.out.println("1 -> " + d.find(1));
+        
+        d.union(5, 3);
+        System.out.println("5 -> " + d.find(5));
+        
     }
 }
