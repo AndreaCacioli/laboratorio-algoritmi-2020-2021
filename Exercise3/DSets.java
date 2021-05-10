@@ -11,19 +11,22 @@ import java.util.ArrayList;
 
 class DSets<T>
 {
-    private HashMap<T, Node<T>> values; 
-    private HashMap<Node<T>, Integer> indexes;
-    private ArrayList<Node<T>> elementsOfTheSet;//So we have direct access to data 
+    private HashMap<T, Node<T>> values;//O(1) when T is given (always)
+    private HashMap<Node<T>, Integer> indexes;//O(1) when Node is given (always)
+    private ArrayList<Node<T>> elementsOfTheSet;//So we have direct access to data O(1)
     private Integer nextIndex = 0;
+
+    //Space complexity O(3n) = O(n)
 
     DSets()
     {
         elementsOfTheSet = new ArrayList<>();
         indexes = new HashMap<>();
         values = new HashMap<>();
+        nextIndex = 0;
     }
 
-    public void makeSet(T key)
+    public void makeSet(T key) //O(1) to create a new set
     {
         if(!values.containsKey(key))
         {
@@ -37,7 +40,7 @@ class DSets<T>
     }
  
     //A function that merges two sets using a Rank system
-    public int union(T key1, T key2)
+    public int union(T key1, T key2)//O(n) to find the key + O(α(n)) to get to the representative
     {
         Node<T> rep1 = findNode(key1);
         Node<T> rep2 = findNode(key2);
@@ -63,7 +66,7 @@ class DSets<T>
     }
     
     //This method will return the representative of the set in which key appears
-    private Node<T> findNode(T key)
+    private Node<T> findNode(T key)//O(n) to find the key + O(α(n)) to get to the representative
     {
         Node<T> n = values.get(key);
         if(n == null) return null;
