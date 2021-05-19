@@ -1,4 +1,4 @@
-class Node<T>
+class Node<T extends Comparable<T>>
 {
     private T key;
     private Node<T> parent; //This will point to itself when the node is a representative of the set
@@ -42,6 +42,6 @@ class Node<T>
     }
     public boolean equals(Node<T> n)
     {
-        return key.equals(n.getKey());
+        return key.compareTo(n.getKey()) == 0;
     }
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * 
  */
 
-class DSets<T>
+class DSets<T extends Comparable<T>>
 {
     private HashMap<T, Node<T>> values;//O(1) when T is given (always)
     private HashMap<Node<T>, Integer> indexes;//O(1) when Node is given (always)
@@ -44,7 +44,7 @@ class DSets<T>
     {
         Node<T> rep1 = findNode(key1);
         Node<T> rep2 = findNode(key2);
-        if(rep1.getKey() == rep2.getKey())
+        if(rep1.equals(rep2))
         {
             return -1;
         } 
@@ -72,6 +72,7 @@ class DSets<T>
         if(n == null) return null;
 
         Node<T> m = n;
+        
         while(n != n.getParent())
         {
             n = n.getParent();
