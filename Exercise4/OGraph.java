@@ -3,13 +3,11 @@ import java.util.HashMap;
 
 class OGraph<T extends Comparable<T> , E extends Comparable<E>>
 {
-    private HashMap<T, GNode<T, E>> nodes; //No need for order, just need it to be time-efficient
-    private HashMap<E, GEdge<T, E>> edges;
+    protected HashMap<T, GNode<T, E>> nodes; //No need for order, just need it to be time-efficient
 
     OGraph() //Creazione di un grafo vuoto – O(1)
     {
         nodes = new HashMap<>();
-        edges = new HashMap<>();
     }
 
     public void add(T key)//Aggiunta di un nodo – O(1)
@@ -41,7 +39,6 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
             edge.end = node2;
             edge.tag = tag;
             node1.adjacenNodes.add(edge);
-            edges.put(tag, edge);
         }
         
     }
@@ -69,28 +66,40 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
     {
         if(containsValue(v))
         {
-            for(GEdge<T, E> edge : edges.values())
-            {
-                if(edge.start.key.compareTo(v) == 0) //edge going out of v
-                {
-                    edges.remove(edge.tag);
-                }
-                if(edge.end.key.compareTo(v) == 0) //edge entering in v
-                {
-                    edge.start.adjacenNodes.remove(edge);
-                    edges.remove(edge.tag);
-                }
-            }
-            nodes.remove(v);
+           GNode<T,E> nodeToBeCancelled = nodes.get(v);
+           nodes.remove(v);
+           for(GNode<T,E> node : nodes.values())//O(n)
+           {
+               for(GEdge<T,E> edge: node.adjacenNodes)//O(1)
+               {
+                    if(edge.end.key.compareTo(nodeToBeCancelled.key) == 0)
+                    {
+                        node.adjacenNodes.remove(edge);
+                        break;
+                    }
+                    
+               }
+           }
+           
+        }
+        else
+        {
+            System.err.println("Cannot delete a node which is not in the graph");
         }
         
     }
     
-    public void deleteConnection(E tag) //Cancellazione di un arco – O(1)  (*)
+    public void deleteConnection(T v1, T v2) //Cancellazione di un arco – O(1)  (*)
     {
-        GEdge<T, E> edge = edges.get(tag);
-        edge.start.adjacenNodes.remove(edge);
-        edges.remove(tag);
+       GNode<T,E> node = nodes.get(v1);
+       for(GEdge<T,E> edge : node.adjacenNodes)
+       {
+           if(edge.end.key.compareTo(v2) == 0)
+           {
+               node.adjacenNodes.remove(edge);
+               break;
+           }
+       } 
     }
     
     public int size() //Determinazione del numero di nodi – O(1)
@@ -98,9 +107,14 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         return nodes.size();
     }
 
-    public int connectionsNumber() //Determinazione del numero di archi – O(n) I did O(1)
+    public int connectionsNumber() //Determinazione del numero di archi – O(n) 
     {
-        return edges.size();
+        int sum = 0;
+        for(GNode<T,E> node : nodes.values())
+        {
+            sum += node.adjacenNodes.size();
+        }
+        return sum; //We could make it an O(1) by adding just one variable and updating it everytime one adds a connection
     }
     public ArrayList<T> getValues() //Recupero dei nodi del grafo – O(n)
     {
@@ -114,9 +128,12 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
     public ArrayList<E> getTags() //Recupero degli archi del grafo – O(n)
     {
         ArrayList<E> ret = new ArrayList<>();
-        for(E tag : edges.keySet())
+        for(GNode<T,E> node : nodes.values())
         {
-            ret.add(tag);
+            for(GEdge<T,E> edge : node.adjacenNodes)
+            {
+                ret.add(edge.tag);
+            }
         }
         return ret;
     }
@@ -124,22 +141,35 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
     public ArrayList<T> getAdjacents(T v1) //Recupero nodi adiacenti di un dato nodo – O(1)  (*)
     {
         ArrayList<T> ret = new ArrayList<>();
-        GNode<T, E> n = nodes.get(v1);
-        for(GEdge<T, E> g : n.adjacenNodes)
+        if(containsValue(v1))
         {
-            ret.add(g.end.key);
-        } 
+            GNode<T, E> n = nodes.get(v1);
+            for(GEdge<T, E> g : n.adjacenNodes)
+            {
+                ret.add(g.end.key);
+            } 
+        }
         return ret;
+        
     }
 
     public E findTag(T v1, T v2) //Recupero etichetta associata a una coppia di nodi – O(1) (*)
     {
+        GEdge<T,E> edge = findEdge(v1, v2);
+        if(edge == null) return null;
+        return edge.tag;
+    }
+
+    protected GEdge<T,E> findEdge(T v1, T v2) 
+    {
         GNode<T, E> n = nodes.get(v1); //O(1)
+        if(n == null) return null;
+
         for(GEdge<T, E> edge : n.adjacenNodes)
         {
             if(edge.start.key.compareTo(v1) == 0 && edge.end.key.compareTo(v2) == 0)
             {
-                return edge.tag;
+                return edge;
             }
         }
         return null;
