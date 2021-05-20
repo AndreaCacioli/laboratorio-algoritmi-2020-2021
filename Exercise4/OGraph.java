@@ -19,6 +19,11 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
     }
     public void addConnection(T v1, T v2, E tag)//Aggiunta di un arco – O(1)
     {
+        if(v1.compareTo(v2) == 0)
+        {
+            System.err.println("Cannot add a connection from a node to itself!");
+            return;
+        }
         GNode<T, E> node1 = getValue(v1);
         GNode<T, E> node2 = getValue(v2);
         if(node1 == null || node2 == null)
