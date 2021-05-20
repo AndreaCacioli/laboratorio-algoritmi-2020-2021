@@ -14,29 +14,36 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
 
     public void add(T key)//Aggiunta di un nodo – O(1)
     {
-        GNode<T, E> node = new GNode<T, E>(key);
-        nodes.put(key, node); //O(1)
+        if(!containsValue(key))
+        {
+            GNode<T, E> node = new GNode<T, E>(key);
+            nodes.put(key, node); //O(1)
+        }
     }
     public void addConnection(T v1, T v2, E tag)//Aggiunta di un arco – O(1)
     {
-        if(v1.compareTo(v2) == 0)
+        if(!containsConnection(v1, v2))
         {
-            System.err.println("Cannot add a connection from a node to itself!");
-            return;
+            if(v1.compareTo(v2) == 0)
+            {
+                System.err.println("Cannot add a connection from a node to itself!");
+                return;
+            }
+            GNode<T, E> node1 = getValue(v1);
+            GNode<T, E> node2 = getValue(v2);
+            if(node1 == null || node2 == null)
+            {
+                System.err.println("Missing one node!");
+                return;
+            }
+            GEdge<T, E> edge  = new GEdge<>();
+            edge.start = node1;
+            edge.end = node2;
+            edge.tag = tag;
+            node1.adjacenNodes.add(edge);
+            edges.put(tag, edge);
         }
-        GNode<T, E> node1 = getValue(v1);
-        GNode<T, E> node2 = getValue(v2);
-        if(node1 == null || node2 == null)
-        {
-            System.err.println("Missing one node!");
-            return;
-        }
-        GEdge<T, E> edge  = new GEdge<>();
-        edge.start = node1;
-        edge.end = node2;
-        edge.tag = tag;
-        node1.adjacenNodes.add(edge);
-        edges.put(tag, edge);
+        
     }
 
     public boolean isOriented()//Verifica se il grafo è diretto – O(1)
@@ -60,19 +67,23 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
     
     public void delete(T v) //Cancellazione di un nodo – O(n)
     {
-        for(GEdge<T, E> edge : edges.values())
+        if(containsValue(v))
         {
-            if(edge.start.key.compareTo(v) == 0) //edge going out of v
+            for(GEdge<T, E> edge : edges.values())
             {
-                edges.remove(edge.tag);
+                if(edge.start.key.compareTo(v) == 0) //edge going out of v
+                {
+                    edges.remove(edge.tag);
+                }
+                if(edge.end.key.compareTo(v) == 0) //edge entering in v
+                {
+                    edge.start.adjacenNodes.remove(edge);
+                    edges.remove(edge.tag);
+                }
             }
-            if(edge.end.key.compareTo(v) == 0) //edge entering in v
-            {
-                edge.start.adjacenNodes.remove(edge);
-                edges.remove(edge.tag);
-            }
+            nodes.remove(v);
         }
-        nodes.remove(v);
+        
     }
     
     public void deleteConnection(E tag) //Cancellazione di un arco – O(1)  (*)
