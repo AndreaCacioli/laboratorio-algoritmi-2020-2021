@@ -3,6 +3,9 @@ import java.io.FileReader;
 
 class KruskTest 
 {
+    /*
+    * This class has been created to test out the functionalities provided by the graph library
+    */ 
     public static void main(String[] args) 
     {
         Graph<String, Double> graph = new Graph<>();
@@ -19,19 +22,31 @@ class KruskTest
                 graph.addConnection(fields[0], fields[1], Double.parseDouble(fields[2]));
             }
 
-            graph = graph.krusk();
-
-
-            System.out.println("Nodes: " + graph.size());
-            System.out.println("Edges: " + graph.connectionsNumber());
-
-            Double weight = 0.0;
+            Double weight = (Double)0.0;
             var v = graph.getTags();
+
+            System.out.println("Distanza volpiano - superga: " + graph.findTag("volpiano", "superga"));
+
             for(Double d : v)
             {
                 weight += d;
             }
-            System.out.println("Total Weight of the forest = " + weight/1000 + " Km");
+            System.out.println("Total Weight of the forest (before krusk) = " + weight/2000 + " Km");
+            System.out.println("Nodes (before krusk): " + graph.size());
+            System.out.println("Edges (before krusk): " + graph.connectionsNumber());
+
+            graph = graph.krusk();
+            System.out.println("");
+
+            System.out.println("Nodes (after krusk): " + graph.size());
+            System.out.println("Edges (after krusk): " + graph.connectionsNumber());
+
+            weight = 0.0;
+            for(Double d : v)
+            {
+                weight += d;
+            }
+            System.out.println("Total Weight of the forest (after krusk) = " + weight/2000 + " Km");
 
         }catch(Exception e)
         {

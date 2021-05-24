@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 class OGraph<T extends Comparable<T> , E extends Comparable<E>>
@@ -34,10 +35,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
                 System.err.println("Missing one node!");
                 return;
             }
-            GEdge<T, E> edge  = new GEdge<>();
-            edge.start = node1;
-            edge.end = node2;
-            edge.tag = tag;
+            GEdge<T, E> edge  = new GEdge<>(node1,node2,tag);
             node1.adjacenNodes.add(edge);
         }
         
@@ -92,7 +90,11 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
     public void deleteConnection(T v1, T v2) //Cancellazione di un arco – O(1)  (*)
     {
        GNode<T,E> node = nodes.get(v1);
-       if(node == null) return;
+       if(node == null) 
+       {
+           System.out.println(v1 + "could not be found!");
+           return;
+       }
 
        for(GEdge<T,E> edge : node.adjacenNodes)
        {
@@ -116,7 +118,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         {
             sum += node.adjacenNodes.size();
         }
-        return sum; //We could make it an O(1) by adding just one variable and updating it everytime one adds a connection
+        return sum; //We could make it an O(1) by adding just one variable and updating it everytime one adds a connection and decreasing it when one is deleted
     }
     public ArrayList<T> getValues() //Recupero dei nodi del grafo – O(n)
     {
@@ -189,6 +191,48 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         }
         return null;
     }
+
+    public boolean hasCycle()
+    {
+        DSets<T> sets = new DSets<>(); 
+        for(GNode<T,E> node : nodes.values())
+        {
+            sets.makeSet(node.key); //Creating every node's own set
+        }
+        ArrayList<GEdge<T,E>> edges = getEdges();
+
+        Collections.sort(edges); //The edges will be sorted by tag(representing the cost)
+        removeDuplicates(edges);
+
+        for(int i = 0; i < edges.size(); i++)
+        {
+            GEdge<T,E> edge = edges.get(i);
+            int outcome = sets.union(edge.start.key, edge.end.key);
+
+            if(outcome == -1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected void removeDuplicates(ArrayList<GEdge<T,E>> edges)
+    {
+        for(int i = 0; i < edges.size(); i++)
+        {
+            int j;
+            for(j = i;j < edges.size() && edges.get(j).tag == edges.get(i).tag ;j++) //The array needs to be sorted
+            {
+                if(edges.get(j).start.key.compareTo(edges.get(i).end.key) == 0 && edges.get(j).end.key.compareTo(edges.get(i).start.key) == 0)
+                {
+                    edges.remove(j);
+                    break;
+                }
+            }
+        }
+    }
+
     public String toString()
     {
         String s = new String();
@@ -197,7 +241,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
             s += node.key.toString() + " -> ";
             for(GEdge<T,E> edge : node.adjacenNodes)
             {
-                s += edge.end.key.toString() + " | ";
+                s += edge.end.key.toString() + " d: (" +  edge.tag +") | ";
             }
             s += "\n";
         }

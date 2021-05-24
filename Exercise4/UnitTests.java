@@ -151,6 +151,12 @@ public class UnitTests
         graph.addConnection("are", "you", 1);
         graph.addConnection("how", "hello", 9);
         assertEquals(graph.connectionsNumber(), 6);
+        int sum = 0;
+        for (int v : graph.getTags())
+        {
+            sum += v;
+        }
+        assertEquals(sum/2, 39);
         assertEquals(graph.findTag("hi", "there"), (Integer)5);
         assertEquals(graph.findTag("there", "hi"), (Integer)5);
         assertEquals(graph.findTag("hello", "hi"), (Integer)9);
@@ -162,5 +168,40 @@ public class UnitTests
         assertNull(graph.findTag("there", "hello"));
         assertNull(graph.findTag("how", "hello"));
         assertNull(graph.findTag("hello", "how"));
+    }
+    @Test
+    public void test10()
+    {
+        Graph<String, Integer> graph = new Graph<>();
+        graph.add("hi");
+        graph.add("there");
+        graph.add("hello");
+        graph.add("how");
+        graph.add("are");
+        graph.add("you");
+        graph.addConnection("hi", "there", 5);
+        graph.addConnection("hi", "hello", 9);
+        graph.addConnection("there", "hello", 10);
+        graph.addConnection("how", "hi", 5);
+        graph.addConnection("are", "you", 1);
+        graph.addConnection("how", "hello", 9);
+        assertEquals(graph.connectionsNumber(), 6);
+        int sum = 0;
+        for (int v : graph.getTags())
+        {
+            sum += v;
+        }
+        assertEquals(sum/2, 39);
+        assertEquals(graph.hasCycle(), true);
+        graph = graph.krusk();
+        sum = 0;
+        for (int v : graph.getTags())
+        {
+            sum += v;
+        }
+        assertEquals(sum/2, (int)20);
+        assertEquals(graph.connectionsNumber(), 4);
+        assertEquals(graph.size(), 6);
+        assertEquals(graph.hasCycle(), false); //Checking that krusk successfully removes cycles
     }
 }

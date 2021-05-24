@@ -8,8 +8,19 @@ class GEdge<T extends Comparable<T>, E extends Comparable<E>> implements Compara
     public GNode<T, E> end;
     public E tag;
 
+    public GEdge(GNode<T,E> s, GNode<T,E> e, E t)
+    {
+        start = s;
+        end = e;
+        tag = t;
+    }
+
     public int compareTo(GEdge<T,E> edge)
     {
         return tag.compareTo(edge.tag);
+    }
+    public String toString()
+    {
+        return tag.toString();
     }
 }

@@ -21,14 +21,8 @@ class Graph<T extends Comparable<T>, E extends Comparable<E>> extends OGraph<T, 
                 System.err.println("Missing one node!");
                 return;
             }
-            GEdge<T, E> edge1  = new GEdge<>();
-            GEdge<T, E> edge2  = new GEdge<>();
-            edge1.start = node1;
-            edge2.start = node2;
-            edge1.end = node2;
-            edge2.end = node1;
-            edge1.tag = tag;
-            edge2.tag = tag;
+            GEdge<T, E> edge1  = new GEdge<>(node1,node2,tag);
+            GEdge<T, E> edge2  = new GEdge<>(node2,node1,tag);
             node1.adjacenNodes.add(edge1);
             node2.adjacenNodes.add(edge2); 
         }
@@ -51,8 +45,9 @@ class Graph<T extends Comparable<T>, E extends Comparable<E>> extends OGraph<T, 
     public void deleteConnection(T v1, T v2)  
     {
         super.deleteConnection(v1, v2);
-        super.deleteConnection(v2, v1); //We could optimize it by manually removing each edge from each node but since O(2n) = O(n) I'm leaving it like this
+        super.deleteConnection(v2, v1); 
     }
+    
     @Override
     public int connectionsNumber() 
     {
@@ -96,19 +91,5 @@ class Graph<T extends Comparable<T>, E extends Comparable<E>> extends OGraph<T, 
         return startingGraph;
     }
 
-    private void removeDuplicates(ArrayList<GEdge<T,E>> edges)
-    {
-        for(int i = 0; i < edges.size(); i++)
-        {
-            int j;
-            for(j = i;j < edges.size() && edges.get(j).tag == edges.get(i).tag ;j++) //The array needs to be sorted
-            {
-                if(edges.get(j).start.key.compareTo(edges.get(i).end.key) == 0 && edges.get(j).end.key.compareTo(edges.get(i).start.key) == 0)
-                {
-                    edges.remove(j);
-                    break;
-                }
-            }
-        }
-    }
+    
 }
