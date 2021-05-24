@@ -81,19 +81,19 @@ class DSets<T extends Comparable<T>>
         return n;
     }
 
-    public T find(T key)
+    public T find(T key)//This method will return the key of the representative of the set in which key appears
     {
         Node<T> ret = findNode(key);
         if(ret == null) return null;
         return ret.getKey();
     }
 
-    public int size()
+    public int size()//This method will return the amount of items contained in the sets
     {
         return nextIndex;
     }
 
-    public String toString()
+    public String toString()//A way to show each item and to which set it belongs
     {
         String s = "";
         for (int i = 0; i < elementsOfTheSet.size(); i++) 
