@@ -4,7 +4,9 @@ import java.io.FileReader;
 class KruskTest 
 {
     /*
-    * This class has been created to test out the functionalities provided by the graph library
+    * This class has been created to test out the functionalities provided by the graph library.
+    * In this class a file called Italian_dist_graph.csv is first scanned and then used to create a graph containing Italian cities and the distance relative to one another.
+    * Then the kruskal's algorithm is used to find the minimum spanning forest of the graph.
     */ 
     public static void main(String[] args) 
     {

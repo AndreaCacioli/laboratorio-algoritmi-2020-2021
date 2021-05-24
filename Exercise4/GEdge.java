@@ -2,6 +2,7 @@ class GEdge<T extends Comparable<T>, E extends Comparable<E>> implements Compara
 {
     /*
     *   A class used to represent an edge of a graph.
+    *   T is the type of the key stored, while E is the tag of the edge that connects two nodes
     *       tag also represents the weight of the edge
     */ 
     public GNode<T, E> start;

@@ -5,6 +5,7 @@ import org.junit.Test;
 public class UnitTests
 {
 
+    //Oriented Graphs
     @Test
     public void test1()
     {
@@ -99,6 +100,7 @@ public class UnitTests
         assertNull(graph.findTag("there", "hello"));
     }
 
+    //Unoriented Graphs
     @Test
     public void test7()
     {
@@ -169,6 +171,8 @@ public class UnitTests
         assertNull(graph.findTag("how", "hello"));
         assertNull(graph.findTag("hello", "how"));
     }
+
+    //Kruskall's algorithm
     @Test
     public void test10()
     {
