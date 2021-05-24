@@ -1,4 +1,4 @@
-class GEdge<T extends Comparable<T>, E extends Comparable<E>>
+class GEdge<T extends Comparable<T>, E extends Comparable<E>> implements Comparable<GEdge<T,E>>
 {
     /*
     *   A class used to represent an edge of a graph.
@@ -7,4 +7,9 @@ class GEdge<T extends Comparable<T>, E extends Comparable<E>>
     public GNode<T, E> start;
     public GNode<T, E> end;
     public E tag;
+
+    public int compareTo(GEdge<T,E> edge)
+    {
+        return tag.compareTo(edge.tag);
+    }
 }

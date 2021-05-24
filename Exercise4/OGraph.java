@@ -92,6 +92,8 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
     public void deleteConnection(T v1, T v2) //Cancellazione di un arco – O(1)  (*)
     {
        GNode<T,E> node = nodes.get(v1);
+       if(node == null) return;
+
        for(GEdge<T,E> edge : node.adjacenNodes)
        {
            if(edge.end.key.compareTo(v2) == 0)
@@ -137,6 +139,19 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         }
         return ret;
     }
+
+    protected ArrayList<GEdge<T,E>> getEdges() //Recupero degli archi del grafo – O(n)
+    {
+        ArrayList<GEdge<T,E>> ret = new ArrayList<>();
+        for(GNode<T,E> node : nodes.values())
+        {
+            for(GEdge<T,E> edge : node.adjacenNodes)
+            {
+                ret.add(edge);
+            }
+        }
+        return ret;
+    }
     
     public ArrayList<T> getAdjacents(T v1) //Recupero nodi adiacenti di un dato nodo – O(1)  (*)
     {
@@ -173,6 +188,20 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
             }
         }
         return null;
+    }
+    public String toString()
+    {
+        String s = new String();
+        for(GNode<T,E> node : nodes.values())
+        {
+            s += node.key.toString() + " -> ";
+            for(GEdge<T,E> edge : node.adjacenNodes)
+            {
+                s += edge.end.key.toString() + " | ";
+            }
+            s += "\n";
+        }
+        return s;
     }
 
 }

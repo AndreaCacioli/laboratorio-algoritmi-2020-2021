@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
 class Graph<T extends Comparable<T>, E extends Comparable<E>> extends OGraph<T, E>
 {
     
@@ -30,6 +33,7 @@ class Graph<T extends Comparable<T>, E extends Comparable<E>> extends OGraph<T, 
             node2.adjacenNodes.add(edge2); 
         }
     }
+    
 
     @Override
     public boolean isOriented() 
@@ -53,5 +57,58 @@ class Graph<T extends Comparable<T>, E extends Comparable<E>> extends OGraph<T, 
     public int connectionsNumber() 
     {
         return super.connectionsNumber()/2;
+    }
+
+    public Graph<T,E> krusk()
+    {
+        Graph<T,E> startingGraph = new Graph<>(); //Creating a copy of the initial graph so that the calling object is not modified
+        DSets<T> sets = new DSets<>(); 
+        for(GNode<T,E> node : nodes.values())
+        {
+            startingGraph.add(node.key);
+            sets.makeSet(node.key); //Creating every node's own set
+        }
+        for(GNode<T,E> node: nodes.values())
+        {
+            for(GEdge<T,E> edge : node.adjacenNodes)
+            {
+                startingGraph.addConnection(edge.start.key, edge.end.key, edge.tag);
+            }
+        }
+
+        ArrayList<GEdge<T,E>> edges = getEdges();
+        Collections.sort(edges); //The edges will be sorted by tag(representing the cost)
+
+        removeDuplicates(edges);
+
+        for(int i = 0; i < edges.size(); i++)
+        {
+            GEdge<T,E> edge = edges.get(i);
+            int outcome = sets.union(edge.start.key, edge.end.key);
+
+            if(outcome == -1)
+            {
+                startingGraph.deleteConnection(edge.start.key, edge.end.key);
+                startingGraph.deleteConnection(edge.end.key, edge.start.key);
+            }
+        }
+
+        return startingGraph;
+    }
+
+    private void removeDuplicates(ArrayList<GEdge<T,E>> edges)
+    {
+        for(int i = 0; i < edges.size(); i++)
+        {
+            int j;
+            for(j = i;j < edges.size() && edges.get(j).tag == edges.get(i).tag ;j++) //The array needs to be sorted
+            {
+                if(edges.get(j).start.key.compareTo(edges.get(i).end.key) == 0 && edges.get(j).end.key.compareTo(edges.get(i).start.key) == 0)
+                {
+                    edges.remove(j);
+                    break;
+                }
+            }
+        }
     }
 }
