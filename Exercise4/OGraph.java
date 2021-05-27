@@ -4,14 +4,26 @@ import java.util.HashMap;
 
 class OGraph<T extends Comparable<T> , E extends Comparable<E>>
 {
+
+    /*
+     * 
+     * This class represents an oriented graph.
+     * Each node is stored to a Hashmap.
+     * Every node has an array of edges that connect it to other nodes.
+     * The class is parametric which means that every data type is allowed to be stored in it as long as it has a compareTo method
+     * T is the type of the key stored, while E is the tag of the edge that connects two nodes
+     * 
+     */
+
+
     protected HashMap<T, GNode<T, E>> nodes; //No need for order, just need it to be time-efficient
 
-    OGraph() //Creazione di un grafo vuoto – O(1)
+    OGraph() //Creation of an empty graph – O(1)
     {
         nodes = new HashMap<>();
     }
 
-    public void add(T key)//Aggiunta di un nodo – O(1)
+    public void add(T key)//Adding a node – O(1)
     {
         if(!containsValue(key))
         {
@@ -19,7 +31,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
             nodes.put(key, node); //O(1)
         }
     }
-    public void addConnection(T v1, T v2, E tag)//Aggiunta di un arco – O(1)
+    public void addConnection(T v1, T v2, E tag)//Creating a new edge – O(1)
     {
         if(!containsConnection(v1, v2))
         {
@@ -41,12 +53,12 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         
     }
 
-    public boolean isOriented()//Verifica se il grafo è diretto – O(1)
+    public boolean isOriented()//Verify if the graph is oriented – O(1)
     {
         return true;
     }
 
-    public boolean containsValue(T value) //Verifica se il grafo contiene un dato nodo – O(1)
+    public boolean containsValue(T value) //Check if the graph contains a given node – O(1)
     {
         return nodes.containsKey(value);
     }
@@ -55,12 +67,12 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         return nodes.get(value);
     }
     
-    public boolean containsConnection(T v1, T v2) //Verifica se il grafo contiene un dato arco – O(1)  (*)
+    public boolean containsConnection(T v1, T v2) //Check if the graph contains a given edge – O(1)  (*)
     {
        return findTag(v1, v2) != null;
     }
     
-    public void delete(T v) //Cancellazione di un nodo – O(n)
+    public void delete(T v) //Deleting a node – O(n)
     {
         if(containsValue(v))
         {
@@ -87,7 +99,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         
     }
     
-    public void deleteConnection(T v1, T v2) //Cancellazione di un arco – O(1)  (*)
+    public void deleteConnection(T v1, T v2) //Deleting an edge – O(1)  (*)
     {
        GNode<T,E> node = nodes.get(v1);
        if(node == null) 
@@ -106,12 +118,12 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
        } 
     }
     
-    public int size() //Determinazione del numero di nodi – O(1)
+    public int size() //Finding the number of nodes – O(1)
     {
         return nodes.size();
     }
 
-    public int connectionsNumber() //Determinazione del numero di archi – O(n) 
+    public int connectionsNumber() //Finding the number of edges – O(n) 
     {
         int sum = 0;
         for(GNode<T,E> node : nodes.values())
@@ -120,7 +132,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         }
         return sum; //We could make it an O(1) by adding just one variable and updating it everytime one adds a connection and decreasing it when one is deleted
     }
-    public ArrayList<T> getValues() //Recupero dei nodi del grafo – O(n)
+    public ArrayList<T> getValues() //Retrieve all the nodes of the graph – O(n)
     {
         ArrayList<T> ret = new ArrayList<>();
         for(T key : nodes.keySet())
@@ -129,7 +141,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         } 
         return ret;
     }
-    public ArrayList<E> getTags() //Recupero degli archi del grafo – O(n)
+    public ArrayList<E> getTags() //Retrieve all the edges of the graph – O(n)
     {
         ArrayList<E> ret = new ArrayList<>();
         for(GNode<T,E> node : nodes.values())
@@ -142,7 +154,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         return ret;
     }
 
-    protected ArrayList<GEdge<T,E>> getEdges() //Recupero degli archi del grafo – O(n)
+    protected ArrayList<GEdge<T,E>> getEdges() //This method is only used internally therefore it is protected and can only be seen by the children of this class
     {
         ArrayList<GEdge<T,E>> ret = new ArrayList<>();
         for(GNode<T,E> node : nodes.values())
@@ -155,7 +167,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         return ret;
     }
     
-    public ArrayList<T> getAdjacents(T v1) //Recupero nodi adiacenti di un dato nodo – O(1)  (*)
+    public ArrayList<T> getAdjacents(T v1) //Finding the adjacent of one node – O(1)  (*)
     {
         ArrayList<T> ret = new ArrayList<>();
         if(containsValue(v1))
@@ -170,14 +182,14 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         
     }
 
-    public E findTag(T v1, T v2) //Recupero etichetta associata a una coppia di nodi – O(1) (*)
+    public E findTag(T v1, T v2) //Finding a tag associated to a couple of notes – O(1) (*)
     {
         GEdge<T,E> edge = findEdge(v1, v2);
         if(edge == null) return null;
         return edge.tag;
     }
 
-    protected GEdge<T,E> findEdge(T v1, T v2) 
+    protected GEdge<T,E> findEdge(T v1, T v2) //This method is only used internally therefore it is protected and can only be seen by the children of this class
     {
         GNode<T, E> n = nodes.get(v1); //O(1)
         if(n == null) return null;
@@ -192,7 +204,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         return null;
     }
 
-    public boolean hasCycle()
+    public boolean hasCycle() //Checking if the graph has a cycle in it, this method uses the disjoint sets data structure
     {
         DSets<T> sets = new DSets<>(); 
         for(GNode<T,E> node : nodes.values())
@@ -217,7 +229,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         return false;
     }
 
-    protected void removeDuplicates(ArrayList<GEdge<T,E>> edges)
+    protected void removeDuplicates(ArrayList<GEdge<T,E>> edges)// This method is only used in preparation for the kruskall's algorithm
     {
         for(int i = 0; i < edges.size(); i++)
         {
@@ -233,7 +245,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
         }
     }
 
-    public String toString()
+    public String toString()//A simple way to visualise the adjacent nodes of each node of the graph
     {
         String s = new String();
         for(GNode<T,E> node : nodes.values())

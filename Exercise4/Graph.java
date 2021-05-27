@@ -3,7 +3,13 @@ import java.util.Collections;
 
 class Graph<T extends Comparable<T>, E extends Comparable<E>> extends OGraph<T, E>
 {
-    
+    /*
+     * This class is used to represent a graph in which the edges are not pointing to either one of the nodes.
+     * Instead two edges are created One pointing from A to B in one pointing from B to A
+     * T is the type of the key stored, while E is the tag of the edge that connects two nodes
+     */
+
+
     @Override
     public void addConnection(T v1, T v2, E tag) 
     {
@@ -54,6 +60,14 @@ class Graph<T extends Comparable<T>, E extends Comparable<E>> extends OGraph<T, 
         return super.connectionsNumber()/2;
     }
 
+
+    /*
+     * 
+     * An implementation of the kruskal's algorithm to find the minimum spanning tree.
+     * This implementation uses a class to represent disjoint sets.
+     * The final tree/forest is returned in the form of a graph.
+     * 
+     */
     public Graph<T,E> krusk()
     {
         Graph<T,E> startingGraph = new Graph<>(); //Creating a copy of the initial graph so that the calling object is not modified
