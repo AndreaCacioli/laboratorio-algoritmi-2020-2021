@@ -1,5 +1,7 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class UnitTests
@@ -12,9 +14,9 @@ public class UnitTests
         graph.add("hi");
         graph.add("there");
         graph.addConnection("hi", "there", 5);
-        assertEquals(graph.containsConnection("hi", "there"), true);
-        assertEquals(graph.containsValue("hi"), true);
-        assertEquals(graph.containsValue("there"), true);
+        assertTrue(graph.containsConnection("hi", "there"));
+        assertTrue(graph.containsValue("hi"));
+        assertTrue(graph.containsValue("there"));
         assertEquals( graph.findTag("hi", "there"), (Integer)5);
         graph.delete("there");
         graph.add("everyone");
@@ -31,8 +33,8 @@ public class UnitTests
         graph.add("there");
         graph.addConnection("hi", "there", 5);
         assertEquals(graph.connectionsNumber(), 1);
-        assertEquals(graph.getValues().contains("hi"), true);
-        assertEquals(graph.getValues().contains("there"), true);
+        assertTrue(graph.getValues().contains("hi"));
+        assertTrue(graph.getValues().contains("there"));
         assertEquals(graph.getValues().size(), 2);
 
     }
@@ -46,8 +48,8 @@ public class UnitTests
         graph.addConnection("hi", "there", 5);
         graph.addConnection("there", "hi", 9);
         assertEquals(graph.connectionsNumber(), 2);
-        assertEquals(graph.getTags().contains(5), true);
-        assertEquals(graph.getTags().contains(9), true);
+        assertTrue(graph.getTags().contains(5));
+        assertTrue(graph.getTags().contains(9));
         assertEquals(graph.getTags().size(), 2);
     }
 
@@ -60,8 +62,8 @@ public class UnitTests
         graph.addConnection("hi", "there", 5);
         graph.addConnection("there", "hi", 9);
         assertEquals(graph.connectionsNumber(), 2);
-        assertEquals(graph.getTags().contains(5), true);
-        assertEquals(graph.getTags().contains(9), true);
+        assertTrue(graph.getTags().contains(5));
+        assertTrue(graph.getTags().contains(9));
         assertEquals(graph.getTags().size(), 2);
     }
 
@@ -75,8 +77,8 @@ public class UnitTests
         graph.addConnection("hi", "there", 5);
         graph.addConnection("hi", "hello", 9);
         assertEquals(graph.connectionsNumber(), 2);
-        assertEquals(graph.getAdjacents("hi").contains("there"), true);
-        assertEquals(graph.getAdjacents("hi").contains("hello"), true);
+        assertTrue(graph.getAdjacents("hi").contains("there"));
+        assertTrue(graph.getAdjacents("hi").contains("hello"));
         assertEquals(graph.getAdjacents("hi").size(), 2);
     }
 
@@ -130,8 +132,8 @@ public class UnitTests
         assertEquals(graph.findTag("there", "hi"), (Integer)5);
         assertEquals(graph.findTag("hello", "hi"), (Integer)9);
         graph.deleteConnection("there", "hi");
-        assertEquals(graph.containsConnection("there", "hi"),false);
-        assertEquals(graph.containsConnection("hi", "there"),false);
+        assertFalse(graph.containsConnection("there", "hi"));
+        assertFalse(graph.containsConnection("hi", "there"));
         assertNull(graph.findTag("hi", "hi"));
     }
     @Test
@@ -161,8 +163,8 @@ public class UnitTests
         assertEquals(graph.findTag("there", "hi"), (Integer)5);
         assertEquals(graph.findTag("hello", "hi"), (Integer)9);
         graph.delete("hello");
-        assertEquals(graph.containsConnection("there", "hi"),true);
-        assertEquals(graph.containsConnection("hi", "there"),true);
+        assertTrue(graph.containsConnection("there", "hi"));
+        assertTrue(graph.containsConnection("hi", "there"));
         assertNull(graph.findTag("hi", "hello"));
         assertNull(graph.findTag("hello", "there"));
         assertNull(graph.findTag("there", "hello"));
@@ -192,7 +194,7 @@ public class UnitTests
             sum += v;
         }
         assertEquals(sum/2, 39);
-        assertEquals(graph.hasCycle(), true);
+        assertTrue(graph.hasCycle());
         graph = graph.krusk();
         sum = 0;
         for (int v : graph.getTags())
@@ -202,6 +204,6 @@ public class UnitTests
         assertEquals(sum/2, (int)20);
         assertEquals(graph.connectionsNumber(), 4);
         assertEquals(graph.size(), 6);
-        assertEquals(graph.hasCycle(), false); //Checking that krusk successfully removes cycles
+        assertFalse(graph.hasCycle()); //Checking that krusk successfully removes cycles
     }
 }
