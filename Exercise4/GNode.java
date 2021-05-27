@@ -23,5 +23,10 @@ class GNode<T extends Comparable<T>, E extends Comparable<E>>
         //timeEndVisit = Integer.MAX_VALUE;
     }
 
+    public String toString()
+    {
+        return key.toString();
+    }
+
 
 }

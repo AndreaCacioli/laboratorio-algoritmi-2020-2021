@@ -22,6 +22,6 @@ class GEdge<T extends Comparable<T>, E extends Comparable<E>> implements Compara
     }
     public String toString()
     {
-        return tag.toString();
+        return "{" + start.toString() + " -> " + end.toString() + ", tag: " +  tag.toString() + "}";
     }
 }

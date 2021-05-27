@@ -33,11 +33,12 @@ class KruskTest
             {
                 weight += d;
             }
-            System.out.println("Total Weight of the forest (before krusk) = " + weight/2000 + " Km");
+            System.out.println("Total Weight of the forest (before krusk) = " + weight/1000 + " Km");
             System.out.println("Nodes (before krusk): " + graph.size());
             System.out.println("Edges (before krusk): " + graph.connectionsNumber());
 
             graph = graph.krusk();
+            v = graph.getTags();
             System.out.println("");
 
             System.out.println("Nodes (after krusk): " + graph.size());
@@ -48,7 +49,7 @@ class KruskTest
             {
                 weight += d;
             }
-            System.out.println("Total Weight of the forest (after krusk) = " + weight/2000 + " Km");
+            System.out.println("Total Weight of the forest (after krusk) = " + weight/1000 + " Km");
 
         }catch(Exception e)
         {

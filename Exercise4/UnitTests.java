@@ -6,7 +6,6 @@ import org.junit.Test;
 
 public class UnitTests
 {
-
     //Oriented Graphs
     @Test
     public void test1()
