@@ -105,5 +105,45 @@ class Graph<T extends Comparable<T>, E extends Comparable<E>> extends OGraph<T, 
         return startingGraph;
     }
 
+    public boolean hasCycleRecursive()
+    {
+        for(GNode<T,E> node : nodes.values())
+        {
+            node.visited = false;
+            node.parent = null;
+        }
+        for(GNode<T,E> node : nodes.values())
+        {
+            if(!node.visited)
+            {
+                node.parent = node;
+                if(cycleInTree(node)) return true;
+            }
+        }
+        return false;
+    }
     
+    private boolean cycleInTree(GNode<T,E> node)
+    {
+        node.visited = true;
+        for(GEdge<T,E> edge : node.adjacenNodes)
+        {
+            if(!edge.end.visited)
+            {
+                if(edge.end.parent == null) 
+                {
+                    edge.end.parent = node;
+                }
+                else return true;
+            }
+        }
+        for(GEdge<T,E> edge : node.adjacenNodes)
+        {
+            if(!edge.end.visited)
+            {
+                if(cycleInTree(edge.end)) return true;
+            }
+        }
+        return false;
+    }
 }

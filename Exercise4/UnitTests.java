@@ -209,4 +209,29 @@ public class UnitTests
         assertEquals(graph.size(), 6);
         assertFalse(graph.hasCycle()); //Checking that krusk successfully removes cycles
     }
+    @Test
+    public void test11()
+    {
+        Graph<String, Integer> graph = new Graph<>();
+        graph.add("hi");
+        graph.add("there");
+        graph.add("hello");
+        graph.add("how");
+        graph.add("are");
+        graph.add("you");
+        graph.addConnection("hi", "there", 5);
+        graph.addConnection("hi", "hello", 9);
+        graph.addConnection("there", "hello", 10);
+        graph.addConnection("how", "hi", 5);
+        graph.addConnection("are", "you", 1);
+        graph.addConnection("how", "hello", 9);
+        assertEquals(graph.connectionsNumber(), 6);
+        assertTrue(graph.hasCycleRecursive());
+
+        graph = graph.krusk();
+      
+        assertEquals(graph.connectionsNumber(), 4);
+        assertEquals(graph.size(), 6);
+        assertFalse(graph.hasCycleRecursive()); //Checking that krusk successfully removes cycles
+    }
 }
