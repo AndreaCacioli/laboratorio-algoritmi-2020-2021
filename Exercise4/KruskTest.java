@@ -15,7 +15,12 @@ class KruskTest
         String row;
         try
         {
-            br = new BufferedReader(new FileReader("./italian_dist_graph.csv"));
+            if(args.length != 1)
+            {
+                System.err.println("This is a program to test kruskal's algorithm.\n\n\tPlease provide a path to a standard csv file with the following format:\n\n\t\t STRING1,STRING2,DISTANCE(double)\n\nExample Usage:\n\n\tjava KruskTest [path to file]\n");
+                return;
+            }
+            br = new BufferedReader(new FileReader(args[0]));
             while((row = br.readLine()) != null)
             {
                 String[] fields = row.split(",");
@@ -27,28 +32,29 @@ class KruskTest
             Double weight = (Double)0.0;
             var v = graph.getTags();
 
-            System.out.println("Distanza volpiano - superga: " + graph.findTag("volpiano", "superga"));
-
             for(Double d : v)
             {
                 weight += d;
             }
-            System.out.println("Total Weight of the forest (before krusk) = " + weight/1000 + " Km");
-            System.out.println("Nodes (before krusk): " + graph.size());
-            System.out.println("Edges (before krusk): " + graph.connectionsNumber());
+            System.out.println("Nodes (before krusk):\t" + graph.size());
+            System.out.println("Edges (before krusk):\t" + graph.connectionsNumber());
+            System.out.println("The graph has cycle (D-Set):\t" + graph.hasCycle());
+            System.out.println("The graph has cycle (Recursively):\t" + graph.hasCycleRecursive());
+            System.out.println("Total Weight of the forest (before krusk) =\t" + weight/1000 + " Km");
 
             graph = graph.krusk();
             v = graph.getTags();
             System.out.println("");
-
-            System.out.println("Nodes (after krusk): " + graph.size());
-            System.out.println("Edges (after krusk): " + graph.connectionsNumber());
-
             weight = 0.0;
             for(Double d : v)
             {
                 weight += d;
             }
+
+            System.out.println("Nodes (after krusk):\t" + graph.size());
+            System.out.println("Edges (after krusk):\t" + graph.connectionsNumber());
+            System.out.println("The graph has cycle (D-Set):\t" + graph.hasCycle());
+            System.out.println("The graph has cycle (Recursively):\t" + graph.hasCycleRecursive());
             System.out.println("Total Weight of the forest (after krusk) = " + weight/1000 + " Km");
 
         }catch(Exception e)
