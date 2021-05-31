@@ -62,7 +62,7 @@ class OGraph<T extends Comparable<T> , E extends Comparable<E>>
     {
         return nodes.containsKey(value);
     }
-    public GNode<T, E> getValue(T value) 
+    protected GNode<T, E> getValue(T value)1
     {
         return nodes.get(value);
     }
