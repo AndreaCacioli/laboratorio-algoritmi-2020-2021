@@ -1,316 +1,86 @@
-# Laboratorio per il corso di Algoritmi e Strutture Dati: regole d'esame, indicazioni generali e suggerimenti, consegne per gli esercizi
+![](RackMultipart20210818-4-1ol7tj5_html_3349d54188c2bd8a.gif)
 
-# Regole d'esame
+### Andrea Cacioli
 
----
+AA 2020/2021
 
-**Importante**: gli studenti che hanno nel piano di studi l'insegnamento di Algoritmi con un numero di CFU differente dal quello della corrente edizione (es. 12 CFU) sono pregati di contattare il docente al più presto, al fine di concordare un programma d'esame commisurato ai CFU.
+## **Sorting Algorithms**
 
----
+In the first assignment the request was to create an algorithm that could sort an array as quick as possible using the **merge sort** algorithm with a variation. The variation consisted of using an asymptotically slower algorithm called **insertion sort**. The aim of this variation was to, instead of decelerate, actually increase the speed of the algorithm, avoiding the need to create a new frame in the stack to sort a very small portion of the array, as merge sort is a recursive algorithm.
 
-Il progetto di laboratorio può essere svolto individualmente o in gruppo (al più 3 persone). **I membri di uno stesso gruppo devono appartenere tutti allo stesso turno di laboratorio**.
+Roughly speaking, most of the work will be done by a faster algorithm and only when the limits of the machine come in a slightly slower algorithm is used. **The time it would take to prepare to execute the the faster is more than executing the slower one right away**.
 
-ll progetto di laboratorio va consegnato mediante Git (vedi sotto) entro e non oltre la data della prova scritta che si intende sostenere. E' vietato sostenere la prova scritta in caso di mancata consegna del progetto di laboratorio. In caso di superamento della prova scritta, la prova orale (discussione del laboratorio) va sostenuta, previa prenotazione mediante apposita procedura che sarà messa a disposizione sulla pagina i-learn del corso, **nella medesima sessione della prova scritta superata** (si ricorda che le sessioni sono giugno-luglio 2021, settembre 2021, dicembre 2021 e gennaio-febbraio 2022).
+The second part of this assignment was to parameterise the length at which the change of algorithm is performed. The number of elements that the subarray needs to have for us to change the algorithm will from now on be called k.
 
-Si noti che, per la sola sessione di giugno-luglio saranno previsti due appelli e, pertanto, esisteranno due possibilità per la discussione del laboratorio (primo o secondo appello della sessione). Nelle altre sessioni, l'appello è unico. Ad esempio, se la studentessa/lo studente X supera la prova scritta a dicembre 2021, deve necessariamente sostenere la discussione di laboratorio con la prova orale di dicembre 2021 (non sarà possibile discutere a gennaio-febbraio 2022).
+The program was tested on a rather large sample size (20 000 000 records). The records had to be sorted using the three fields they came with: I string, an integer and a float. Since the implementation of the two algorithm combined needed to be destructive of the initial array, instead of reloading from the file all the 20 million records, the algorithm was called on a different field keeping the records already sorted from a previous call. This, however, should not change the final results as ordering based on one field doesn&#39;t affect the order of the other field.
 
-Esempio:
+The average time spent by the algorithms is reported in the following graphs. Please keep in mind that these graphs come out of an **average of values** tested on different hardware, different operating systems and with different values of K: as reported in the graphs.
 
-- la studentessa/lo studente X sostiene la prova scritta nel primo appello di giugno;
-- la studentessa/lo studente X deve assicurarsi che il progetto su GitLab, alla data della prova scritta che intende sostenere (in questo esempio, quella del primo appello di giugno), sia aggiornato alla versione che vuole presentare al docente di laboratorio;
-- se la studentessa/lo studente X supera la prova scritta nel primo appello di giugno, deve (pena la perdita del voto ottenuto nella prova scritta) iscriversi a uno degli appelli orali di giugno o luglio, prenotarsi su i-learn in uno degli slot messi a disposizione dal docente del turno di appartenenza e sostenere l'orale nello slot temporale prenotato.
+**The Y axis represents time expressed in seconds.**![](RackMultipart20210818-4-1ol7tj5_html_c796f5bbf86d9212.png)
 
-Le regole riportate sopra si applicano alla singola studentessa/al singolo studente. Per poter accedere alla discussione di laboratori è in ogni caso necessaria l'iscrizione alla prova orale corrispondente su myunito.
+As we can see the value of K affects very little when going from the order of 10 to the power of 0 to 10 to the power of 2.
 
-Studentesse/studenti diversi, appartenenti allo stesso gruppo, possono sostenere la prova **scritta** nello stesso appello o in appelli diversi. Se studentesse/studenti diversi, appartenenti allo stesso gruppo, superano la prova scritta nello stesso appello, **devono** sostenere l' **orale** nello stesso appello orale. Se studentesse/studenti diversi, appartenenti allo stesso gruppo, superano la prova scritta in appelli diversi, **possono** sostenere l'**orale** in appelli diversi.
+The following two graphs represent the average time spent based on the different field regulating the order. ![](RackMultipart20210818-4-1ol7tj5_html_4aab1410b015dd68.png) ![](RackMultipart20210818-4-1ol7tj5_html_f9c63169bb5f0434.png)
 
-Ad esempio, si consideri un gruppo di laboratorio costituito dalle studentesse/dagli studenti X, Y e Z, e si supponga che i soli X e Y sostengano la prova scritta nel primo appello di giugno, X con successo, mentre Y con esito insufficiente. Devono essere rispettate le seguenti condizioni:
+**A wise choice of the value of K should be between 1 and 100** as, basically, after that value the time complexity of the insertion sort takes over the advantage of not creating a new frame in the stack.
 
-- alla data della prova scritta del primo appello di giugno, il progetto di laboratorio del gruppo deve essere aggiornato alla versione che si intende presentare;
-- il solo studente X deve sostenere la prova orale nella sessione giugno-luglio,  procedendo come indicato nell'esempio riportato sopra, mentre Y e Z sosterranno la discussione quando avranno superato la prova scritta.
-- Supponiamo che Y e Z superino la prova scritta nell'appello di gennaio: essi dovranno sostenere la prova orale nella sessione di gennaio-febbraio.
-- Gli studenti Y e Z dovranno, di norma, discutere la stessa versione del progetto di laboratorio che ha discusso lo studente X; i.e., eventuali modifiche al laboratorio successive alla discussione di X dovranno essere debitamente documentate (i.e., il log delle modifiche dovrà comparire su GitLab) e motivate.
+## **Edit Distance of strings**
 
-**Validità del progetto di laboratorio** : le specifiche per il progetto di laboratorio descritte in questo documento resteranno valide fino all'ultimo appello della sessione gennaio-febbraio relativa al corrente anno accademico **(vale a dire, quella di gennaio-febbraio 2022)** e non oltre!. Gli appelli delle sessioni successive a questa dovranno essere sostenuti sulla base delle specifiche che verranno descritte nella prossima edizione del laboratorio di algoritmi.
+The edit distance of two strings is an integer value that represents how many operations: **deletion, insertion and no-operation** , it would take for one string to be transformed into the second one.
 
+To calculate this we have two different approaches: the first one is fully **recursive** and therefore rather time-consuming. The second one is an example of **dynamic programming** : it uses a matrix to store the previously calculated results in order to cut on some calculations. The size of the of the matrix is M x N where M and N are the sizes of the two strings.
 
-# Indicazioni generali e suggerimenti
+The matrix is initialised with all elements being a negative one then every time a new value is calculated the position of that value will be found through the length of the strings and then stored in that location. The next time recursive call of the function refers to the 2 strings being of that length instead of re-calculating every sub problem we just have the value stored in the matrix.
 
-## Uso di Git
+In the example a dictionary containing a lot of words that are spelt correctly is used to check on every word of another file containing instead a quotation filled with grammar mistakes. The objective is to show that calculating the edit distance of the strings actually gives us good **suggestions** of what the writer meant when he made the mistakes.
 
-Durante la scrittura del codice è richiesto di usare in modo appropriato il sistema di versioning Git. Questa richiesta implica quanto segue:
+## **Graphs**
 
-- il progetto di laboratorio va inizializzato "clonando" il repository del laboratorio come descritto nel file Git.md;
-- come è prassi nei moderni ambienti di sviluppo, è richiesto di effettuare commit frequenti. L'ideale è un commit per ogni blocco di lavoro terminato (es. creazione e test di una nuova funzione, soluzione di un baco, creazione di una nuova interfaccia, ...);
-- ogni membro del gruppo dovrebbe effettuare il commit delle modifiche che lo hanno visto come principale sviluppatore;
-- al termine del lavoro si dovrà consegnare l'intero repository.
+### **General implementation**
 
-Il file Git.md contiene un esempio di come usare Git per lo sviluppo degli esercizi proposti per questo laboratorio.
+A graph is a data structure composed by **nodes and edges**. The node contains a key which could be of any type while the edges contain a tag that usually represents the weight or the distance between the nodes it connects.
 
----
+A **sparse** graph is a graph where the amount of connections between each node is not close to the maximum amount of edges that, at any given time, could be in the graph. On the contrary a dance graph is one with a lot of connections. This difference is rather important as the implementation can be more efficient if we consider the graph to be mostly dense or mostly sparse. In a library we implemented the graphs to be optimal for sparse data: we used an arraylist of adjacent nodes for each individual node.
 
-**Nota importante**: Su git dovrà essere caricato solamente il codice sorgente, in particolare nessun file dati dovrà essere oggetto di commit!
+In order to make the graph as general as possible, the type of the key stored in the nodes and the type of the tag of each connection is **general** and is only limited by the fact that the object has to implement the Comparable\&lt;\&gt; interface, so that it is possible to have an order of magnitude of each edge and key.
 
----
+Although every variable of the edge and node class is public, the **complexity is hidden** in the class of the graph which only allows the final user to call methods that operate on the public variables.
 
-Si rammenta che la valutazione del progetto di laboratorio considererà anche l'uso adeguato di git da parte di ciascun membro del gruppo.
+A graph can be either **oriented or unoriented** , which means that the direction of the connection between the nodes matters and limits the way we can access data only from one note to the other. One could see the unoriented version as one particular case of the oriented one in which every connection going from A to B is duplicated in the opposite direction from B to A.
 
-## Linguaggio in cui sviluppare il laboratorio
+### **Algorithms implemented**
 
-Gli esercizi vanno implementati utilizzando il linguaggio C o Java come precisato di seguito:
+The most common algorithms are implemented keeping in mind the time complexity that was decided beforehand and a list of these algorithms is shown as follows:
 
-- Esercizio 1: C
-- Esercizio 2: C
-- Esercizio 3: Java
-- Esercizio 4: Java
+Please keep in mind that I as the grass is supposed to be sparse the complexity of reading from the adjacent nodes list is approximately O(1).
 
-Come indicato sotto, alcuni esercizi chiedono di implementare codice generico. Seguono alcuni suggerimenti sul modo di realizzare codice con questa caratteristica nei due linguaggi accettati.
+- Creation of an empty graph – O(1)
+- Adding a node - O(1)
+- Creating a new edge - O(1)
+- Verifying if the graph is oriented or not - O(1)
+- Verifying if the graph contains a given value - O(1)
+- Verifying if the graph contains a connection between two given values - O(1)
+- Deleting a node - O(n)
+- Deleting an edge - O(1)
+- Finding the number of nodes - O(1)
+- Finding the number of edges - O(n)
+- Getting all the values of the keys or all the values of the edges&#39; tags - O(n)
+- Finding the adjacent nodes of one node - O(1)
 
-**Nota** : Con "codice generico" si intende codice che deve poter essere eseguito con tipi di dato non noti a tempo di compilazione.
+In addition to these methods are r **ecursive visit of the graph** to check if it has cycles has been added.
 
-**Suggerimenti (C)**: Nel caso del C, è necessario capire come meglio approssimare l'idea di codice generico utilizzando quanto permesso dal linguaggio. Un approccio comune è far sì che le funzioni e le procedure presenti nel codice prendano in input puntatori a `void` e utilizzino qualche funzione fornita dall'utente per accedere alle componenti necessarie.
+### **kruskal&#39;s Algorithms**
 
-Nota: chi è in grado di realizzare tipi di dato astratto tramite tipi opachi è incoraggiato a procedere in questa direzione.
+In an unoriented graph it is possible to define a minimum spanning tree or a minimum spanning forest that connects every note of the graph but doesn&#39;t have any cycle in it. To do so the kruskal&#39;s algorithm uses a data structure called **union-find set.** The idea is to keep in the graph only the connections that do not create cycles. The algorithm is **greedy** so it uses the least &quot;heavy&quot; connections first and then it moves on to the heaviest ones. To detect a cycle we say that every node belongs to their own individual set which is then merged into another one when an edge connects the two nodes. If after this procedure another edge tries to connect to nodes that are already connected and thus in the same set, the algorithm deletes that connection as it would create a cycle and it is not necessary for the minimum spanning tree.
 
-**Suggerimenti (Java)**: Sebbene in Java la soluzione più in linea con il moderno utilizzo del linguaggio richiederebbe la creazione di classi parametriche, tutte le scelte implementative (compresa la decisione di usare o meno classi parametriche) sono lasciate agli studenti. Inoltre, è possibile (e consigliato) usare gli ArrayList invece degli array nativi al fine di semplificare la realizzazione di codice generico.
+### **The union-find set data structure**
 
-## Uso di librerie esterne e/o native del linguaggio scelto
+This data structure is used to store different types of data in **disjoint sets** that are identified by one particular elements called representative. The operations of union, finding the representative and making a new set are very time efficient.
 
-È vietato (sia nello sviluppo in Java che in quello in C) l'uso di strutture dati native del linguaggio scelto o offerte da librerie esterne, quando la loro realizzazione è richiesta da uno degli esercizi proposti.
+**Union by rank** : when every union operation is performed the rank of the two sets is taken into account. To identify which one of the two sets is going to be the main set and which of the two representatives will be the representative of the final set a rank system is implemented. So if the two sets have the same rank one of the two is picked randomly as the winner and it **ranks up**.
 
-È, invece, possibile l'uso di strutture dati native del linguaggio o offerte da librerie esterne, se la loro realizzazione non è richiesta da uno degli esercizi proposti.
+**Path Compression:** every element of each set is associated with a pointer to its representative. When a union is performed, though, sometimes some elements point to other elements of the set instead of the representative which makes finding the representative a bit slower. So to avoid this problem every time we find the representative of one value we overwrite the pointer of the input to point to the representative. In this way the next time we tried to access that particular value we can directly find its representative.
 
-Es.: nello sviluppo in Java, l'uso di ArrayList è da ritenersi possibile, se nessun esercizio chiede la realizzazione in Java di un array dinamico.
+### **The demo**
 
-## Qualità dell'implementazione
-
-È parte del mandato degli esercizi la realizzazione di codice di buona qualità.
-
-Per "buona qualità" intendiamo codice ben modularizzato, ben commentato e ben testato.
-
-**Alcuni suggerimenti:**
-
-- verificare che il codice sia suddiviso correttamente in package o moduli;
-- aggiungere un commento, prima di una definizione, che spiega il funzionamento dell'oggetto definito. Evitare quando possibile di commentare direttamente il codice interno alle funzioni/metodi implementati (se il codice è ben scritto, i commenti in genere non servono);
-- la lunghezza di un metodo/funzione è in genere un campanello di allarme: se essa cresce troppo, probabilmente è necessario rifattorizzare il codice spezzando la funzione in più parti. In linea di massima si può consigliare di intervenire quando la funzione cresce sopra le 30 righe (considerando anche commenti e spazi bianchi);
-- sono accettabili commenti in italiano, sebbene siano preferibili in inglese;
-- tutti i nomi (es., nomi di variabili, di metodi, di classi, ecc.) *devono* essere significativi e in inglese;
-- il codice deve essere correttamente indentato; impostare l'indentazione a 2 caratteri (un'indentazione di 4 caratteri è ammessa ma scoraggiata) e impostare l'editor in modo che inserisca "soft tabs" (cioè, deve inserire il numero corretto di spazi invece che un carattere di tabulazione);
-- per dare i nomi agli identificatori, seguire le convenzioni in uso per il linguaggio scelto:
-  - Java: i nomi dei package sono tutti in minuscolo senza separazione fra le parole (es. thepackage); i nomi dei tipi (classi, interfacce, ecc.) iniziano con una lettera maiuscola e proseguono in camel case (es. TheClass), i nomi dei metodi e delle variabili iniziano con una lettera minuscola e proseguono in camel case (es. theMethod), i nomi delle costanti sono tutti in maiuscolo e in formato snake case (es. THE\_CONSTANT);
-  - C:  macro e costanti sono tutti in maiuscolo e in formato snake case (es. THE\_MACRO, THE\_CONSTANT); i nomi di tipo (e.g.  struct, typedefs, enums, ...) iniziano con una lettera maiuscola e proseguono in camel case (e.g., TheType, TheStruct); i nomi di funzione iniziano con una lettera minuscola e proseguono in snake case (e.g., the\_function());
-- i file vanno salvati in formato UTF-8.
-
-# Consegne per gli esercizi
-
-**Nota** : la presente sezione contiene alcune formule descritte usando la sintassi \LaTeX. È possibile convertire l'intero documento in formato pdf - di più facile lettura - usando l'utility pandoc. Da riga di comando (Unix):
-
-pandoc README.md -o README.pdf
-
----
-
-**Importante**: Gli esercizi 1 3 e 4 richiedono (fra le altre cose) di sviluppare codice generico. Nello sviluppare questa parte, si deve assumere di stare sviluppando una libreria generica intesa come fondamento di futuri programmi. Non è pertanto lecito fare assunzioni semplificative; in generale, l'implementazione della libreria generica deve restare separata e non deve essere influenzata in alcun modo dagli usi di essa eventualmente richiesti negli esercizi (ad esempio, se un esercizio dovesse richiedere l'implementazione della struttura dati grafo e quello stesso o un altro esercizio dovesse richiedere l'implementazione, a partire da tale struttura dati, di un algoritmo per il calcolo delle componenti connesse di un grafo, l'implementazione della struttura dati deve essere separata dall'algoritmo per il calcolo delle componenti connesse e *non* deve contenere elementi – variabili, procedure, funzioni, metodi, ecc. – eventualmente utili a tale algoritmo, ma non essenziali alla struttura dati; analogamente, se un esercizio dovesse richiedere di operare su grafi con nodi di tipo stringa, l'implementazione della struttura dati grafo dovrebbe restare generica e non potrebbe quindi assumere per i nodi il solo tipo stringa).
-
----
-
-In sede di discussione d'esame, sarà facoltà del docente chiedere di eseguire gli algoritmi implementati su dati forniti dal docente stesso. Nel caso questi dati siano memorizzati su file, questi saranno dei csv con la medesima struttura dei dataset forniti e descritti nel testo dell'esercizio. I codici sviluppati dovranno consentire un rapido e semplice adattamento agli input forniti: ad esempio, una buona implementazione consentirà di inserire in input il nome del file su cui eseguire il test, mentre una peggiore richiederà di modificare il codice sorgente e una successiva compilazione a fronte della sola modifica del nome del file contenente il dataset.
-
-## Unit Testing
-
-Come indicato esplicitamente nei testi degli esercizi, il progetto di laboratorio comprende anche la definizione di opportune suite di unit tests.
-
-Si rammenta, però, che il focus del laboratorio è l'implementazione di strutture dati e algoritmi. Relativamente agli unit-test sarà quindi sufficiente che gli studenti dimostrino di averne colto il senso e di saper realizzare una suite di test sufficiente a coprire i casi più comuni (compresi, in particolare, i casi limite).
-
-## Esercizio 1
-
-### Linguaggio richiesto: C
-
-### Testo
-
-Implementare una libreria che offre un algoritmo di ordinamento  `Merge-BinaryInsertion Sort`. Con `BinaryInsertion Sort` ci riferiamo a una versione dell'algoritmo `Insertion Sort` in cui la posizione, all'interno della sezione ordinata del vettore, in cui inserire l'elemento corrente è determinata tramite ricerca binaria. Il `Merge-BinaryInsertion Sort` è un algoritmo ibrido che combina `Merge Sort` e `BinaryInsertion Sort`.  L'idea è di approfittare del fatto che il `BinaryInsertion Sort` può essere più veloce del `Merge Sort` quando la sottolista da ordinare è piccola. Ciò suggerisce di considerare una modifica del `Merge Sort` in cui le sottoliste di lunghezza `k` o inferiore sono ordinate usando il  `BinaryInsertion Sort` e sono poi combinate usando il meccanismo tradizionale di fusione del `Merge Sort`. Il valore del parametro `k` dovrà essere studiato e discusso nella relazione. Ad esempio, `k=0` implica che `Merge-BinaryInsertion Sort` si comporta esattamente come il `Merge Sort` classico, mentre `k>>0` aumenta l'utilizzo del `BinaryInsertion Sort`.
-
-Il codice che implementa `Merge-BinaryInsertion Sort` deve essere generico. Inoltre, la libreria deve permettere di specificare (cioè deve accettare in input) il criterio secondo cui ordinare i dati.
-
-### Unit Testing
-
-Implementare gli unit-test per la libreria secondo le indicazioni suggerite nel documento Unit Testing.
-
-### Uso della libreria di ordinamento implementata
-
-Il file `records.csv` che potete trovare (compresso) all'indirizzo
-
-```
-https://datacloud.di.unito.it/index.php/s/X7qC8JSLNRtLxPC
-```
-
-contiene 20 milioni di record da ordinare.
-Ogni record è descritto su una riga e contiene i seguenti campi:
-
-- id: (tipo intero) identificatore univoco del record;
-- field1: (tipo stringa) contiene parole estratte dalla divina commedia,
-  potete assumere che i valori non contengano spazi o virgole;
-- field2: (tipo intero);
-- field3: (tipo floating point);
-
-Il formato è un CSV standard: i campi sono separati da virgole; i record sono
-separati da `\n`.
-
-Usando l'algoritmo implementato, si ordinino i *record* (non è sufficiente ordinare i
-singoli campi) contenuti nel file `records.csv` in ordine non decrescente secondo i valori contenuti nei tre campi "field" (cioè, per ogni valore di `k`, è necessario ripetere l'ordinamento tre volte, una volta per ciascun campo).
-
-Si misurino i tempi di risposta variando il valore di `k` e si produca una breve relazione in cui si riportano i risultati ottenuti insieme a un loro commento. Dimostrare nella relazione come il valore di `k` dovrebbe essere scelto nella pratica. Nel caso l'ordinamento si protragga per più di 10 minuti potete interrompere l'esecuzione e riportare un fallimento dell'operazione. I risultati sono quelli che vi sareste aspettati? Se sì, perché? Se no, fate delle ipotesi circa il motivo per cui l'algoritmo non funziona come vi aspettate, verificatele e riportate quanto scoperto nella relazione.
-
-**Si ricorda che** che il file `records.csv` **NON DEVE ESSERE OGGETTO DI COMMIT SU GIT!**
-
-## Esercizio 2
-
-### Linguaggio richiesto: C
-
-### Testo
-
-Si consideri il problema di determinare la distanza di edit tra due stringhe (Edit distance): date due stringhe s1 e s2, non necessariamente della stessa lunghezza, determinare il minimo numero di operazioni necessarie per trasformare la stringa s2 in s1. Si assuma che le operazioni disponibili siano: cancellazione e inserimento. Esempi:
-
-- "casa" e "cassa" hanno edit distance pari a 1 (1 cancellazione);
-- "casa" e "cara" hanno edit distance pari a 2 (1 cancellazione + 1 inserimento);
-- “vinaio” e “vino” hanno edit distance=2 (2 inserimenti);
-- "tassa" e "passato" hanno edit distance pari a 4 (3 cancellazioni + 1 inserimento);
-- "pioppo" e "pioppo" hanno edit distance pari a 0.
-
-1. Si implementi una versione ricorsiva della funzione edit\_distance la cui struttura riproponga quella della seguente definizione (indichiamo con $|s|$ la lunghezza di $s$ e con $\mathrm{rest}(s)$ la sottostringa di $s$ ottenuta ignorando il primo carattere di $s$):
-
-- se $|s1|$ = 0, allora $\mathrm{edit\_distance}(s1,s2) = |s2|$;
-- se $|s2|$ = 0, allora $\mathrm{edit\_distance}(s1,s2) = |s1|$;
-- altrimenti, siano:
-  - $d_{\mathrm{no-op}} =
-        \begin{cases}
-        \mathrm{edit\_distance}(\mathrm{rest}(s1),\mathrm{rest}(s2)) & \mathrm{se\ } s1[0]=s2[0] \\
-        \infty & \mathrm{altrimenti}
-        \end{cases}$
-  - $d_{\mathrm{canc}} = 1+ \mathrm{edit\_distance}(s1,\mathrm{rest}(s2))$
-  - $d_{\mathrm{ins}} = 1+ \mathrm{edit\_distance}(\mathrm{rest}(s1),s2)$
-
-Si ha: $\mathrm{edit\_distance}(s1,s2)=\min\{d_{\mathrm{no-op}},d_{\mathrm{canc}},d_{\mathrm{ins}}\}$
-
-2. Si implementi una seconda versione edit\_distance\_dyn della funzione, adottando una strategia di programmazione dinamica. Tale versione deve essere anch'essa ricorsiva e la sua struttura deve essere simile a quella della versione richiesta al punto precedente.
-
-*Nota*: Le definizioni sopra riportate non corrispondono al modo usuale di definire la distanza di edit. Sono però del tutto sufficienti per risolvere l'esercizio e, come detto, sono quelle su cui dovrà essere basato il codice prodotto.
-
-### Unit Testing
-
-Implementare gli unit-test degli algoritmi secondo le indicazioni suggerite nel documento Unit Testing.
-
-### Uso delle funzioni implementate
-
-All'indirizzo
-
-```
-https://datacloud.di.unito.it/index.php/s/gfoEndRSfwQKiHS
-```
-potete trovare i file `dictionary.txt` e `correctme.txt` (in una cartella compressa).
-
-Il file `dictionary.txt` contiene l'elenco (di una parte significativa) delle parole italiane. Le parole sono scritte di seguito, ciascuna su una riga.
-
-Il file `correctme.txt` contiene una citazione di John Lennon. La citazione presenta alcuni errori di battitura.
-
-Si implementi un'applicazione che usa la funzione edit\_distance\_dyn per determinare, per ogni parola w in correctme.txt, la lista di parole in dictionary.txt con edit distance minima da w. Si sperimenti il funzionamento dell'applicazione e si riporti in una breve relazione (circa una pagina) i risultati degli esperimenti.
-
-**Si ricorda** che i file `dictionary.txt` e `correctme.txt` **NON DEVONO ESSERE OGGETTO DI COMMIT SU GIT!**
-
-## Esercizio 3
-
-### Linguaggio richiesto: Java
-
-### Testo
-
-Si implementi la struttura dati Union-Find Set (con le euristiche di unione per rango e compressione del cammino). La struttura dati deve permettere di inserire oggetti di
-tipo generico e non prevedere un insieme iniziale finito di elementi.
-
-Una descrizione della Union-Find Set è riportata sul testo Cormen et al., `Introduzione agli algoritmi e strutture dati`, McGraw-Hill, nel capitolo `Strutture dati per insiemi disgiunti`, paragrafo `Foreste di insiemi disgiunti`.
-
-### Unit Testing
-
-Implementare gli unit-test degli algoritmi secondo le indicazioni suggerite nel documento Unit Testing.
-
-## Esercizio 4
-
-### Linguaggio richiesto: Java
-
-### Testo
-
-Si implementi una libreria che realizza la struttura dati Grafo in modo che **sia ottimale per dati sparsi**
-(IMPORTANTE: le scelte implementative che farete dovranno essere giustificate in relazione alle nozioni presentate
-durante le lezioni in aula). La struttura deve consentire di rappresentare sia grafi diretti che grafi non diretti
-(suggerimento:  un grafo non diretto può essere rappresentato usando un'implementazione per grafi diretti modificata
-per garantire che, per ogni arco (a,b), etichettato w, presente nel grafo, sia presente nel grafo anche l'arco (b,a),
-etichettato w. Ovviamente, il grafo dovrà mantenere l'informazione che specifica se esso è un grafo diretto o non diretto.).
-
-L'implementazione deve essere generica sia per quanto riguarda il tipo dei nodi, sia per quanto riguarda le etichette
-degli archi.
-
-La struttura dati implementata dovrà offrire (almeno) le seguenti operazioni (accanto ad ogni operazione è specificata la
-complessità richiesta; n può indicare il numero di nodi o il numero di archi, a seconda del contesto):
-
-- Creazione di un grafo vuoto – O(1)
-- Aggiunta di un nodo – O(1)
-- Aggiunta di un arco – O(1)
-- Verifica se il grafo è diretto – O(1)
-- Verifica se il grafo contiene un dato nodo – O(1)
-- Verifica se il grafo contiene un dato arco – O(1)  (*)
-- Cancellazione di un nodo – O(n)
-- Cancellazione di un arco – O(1)  (*)
-- Determinazione del numero di nodi – O(1)
-- Determinazione del numero di archi – O(n)
-- Recupero dei nodi del grafo – O(n)
-- Recupero degli archi del grafo – O(n)
-- Recupero nodi adiacenti di un dato nodo – O(1)  (*)
-- Recupero etichetta associata a una coppia di nodi – O(1) (*)
-
-(*) quando il grafo è veramente sparso, assumendo che l'operazione venga effettuata su un nodo la cui lista di adiacenza ha una lunghezza in O(1).
-
-### Unit Testing
-
-Implementare gli unit-test degli algoritmi secondo le indicazioni suggerite nel documento Unit Testing.
-
-### Uso della libreria che implementa la struttura dati Grafo
-
-Si implementi l'algoritmo di Kruskal per la determinazione della minima foresta  ricoprente di un grafo.
-
-L'implementazione dell'algoritmo di Kruskal dovrà utilizzare la struttura dati Union-Find Set implementata nell'esercizio precedente.
-
-N.B. Nel caso in cui il grafo sia costituito da una sola componente connessa,
-l'algoritmo restituirà un albero; nel caso in cui, invece, vi siano più componenti connesse,
-l'algoritmo restituirà una foresta costituita dai minimi alberi ricoprenti di ciascuna componente connessa.
-
-### Uso delle librerie che implementano la struttura dati Grafo e l'algoritmo di Kruskal
-
-La struttura dati Grafo e l'algoritmo di Kruskal dovranno essere utilizzati con i dati contenuti nel file italian\_dist\_graph.csv.
-
-Il file italian\_dist\_graph.csv che potete trovare all'indirizzo
-
-```
-https://datacloud.di.unito.it/index.php/s/PirTJpq4JMnpH3G
-```
-
-contiene le distanze in metri tra varie località
-italiane e una frazione delle località a loro più vicine.
-Il formato è un CSV standard: i campi sono separati da virgole; i record sono separati dal carattere di fine
-riga (\\n).
-
-Ogni record contiene i seguenti dati:
-
-- località 1: (tipo stringa) nome della località "sorgente". La stringa può contenere spazi, non può contenere virgole;
-- località 2: (tipo stringa) nome della località "destinazione". La stringa  può contenere spazi, non può contenere virgole;
-- distanza: (tipo float) distanza in metri tra le due località.
-
-**Note** :
-
-- potete interpretare le informazioni presenti nelle righe del file come   archi non diretti (pertanto, si suggerisce di inserire nel grafo sia l'arco di andata che quello di ritorno a fronte di ogni riga letta).
-- il file è stato creato a partire da un dataset poco accurato. I dati riportati contengono inesattezze e imprecisioni.
-
-**Si ricorda** il file italian\_dist\_graph.csv **NON DEVE ESSERE OGGETTO DI COMMIT SU GIT!**
-
-**Controlli**
-
-Un'implementazione corretta dell'algoritmo di Kruskal, eseguita sui dati
-contenuti nel file italian\_dist\_graph.csv, dovrebbe determinare una minima foresta ricoprente con
-18.640 nodi, 18.637 archi (non orientati) e di peso complessivo di circa 89.939,913 Km.
+To test both the data structure and the algorithm a file containing data about Italian cities and the distance relative to each other is provided. After reading it all the information is stored into a graph on which then the algorithm is run and the difference in the total weight of the edges is reported and very significant.
